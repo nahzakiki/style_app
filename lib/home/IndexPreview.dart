@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
+import 'package:style_app/camera/MainCamera.dart';
+import 'package:style_app/home/HomePage.dart';
+import 'package:style_app/home/ProfilePage.dart';
 
 class IndexPreview extends StatefulWidget {
   const IndexPreview({Key? key}) : super(key: key);
@@ -8,22 +11,33 @@ class IndexPreview extends StatefulWidget {
   State<IndexPreview> createState() => _IndexPreview();
 }
 
-class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin{
+class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
   final List<String> StylesList = [
-    'Minimal Style','Sweet Style','Vintage Style','Sexy Style','Street Style','Casual Style'
+    'Minimal Style',
+    'Sweet Style',
+    'Vintage Style',
+    'Sexy Style',
+    'Street Style',
+    'Casual Style'
   ];
   int _currentIndex = 0;
   int _activeIndex = 0;
 
-  List<String> pageList = ['Minimal Style','Sweet Style','Vintage Style','Sexy Style','Street Style','Casual Style'
+  List<String> pageList = [
+    'Minimal Style',
+    'Sweet Style',
+    'Vintage Style',
+    'Sexy Style',
+    'Street Style',
+    'Casual Style'
   ];
 
   @override
   void initState() {
     super.initState();
   }
-  @override
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -81,18 +95,16 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin{
                 ),
               ),
               Container(
-                child: Text(
-                    pageList[_activeIndex]
-                ),
+                child: Text(pageList[_activeIndex]),
               ),
-              //_buildSubPage(),
+              _buildSubPage(),
             ],
           ),
         ),
       ),
     );
-
   }
+
   Widget buildButton() {
     return Row(
       children: [
@@ -107,23 +119,26 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin{
                 },
                 child: Text(
                   '${StylesList[i]}',
-                  style: TextStyle(
-                      fontSize: 16
-                  ),
+                  style: TextStyle(fontSize: 16),
                 ),
-                style: ElevatedButton.styleFrom(shape: StadiumBorder(),
-                    primary: (_activeIndex==i)?Color.fromRGBO(222, 179, 173, 1.0):Color.fromRGBO(223, 211, 248, 1.0))
-            ),
+                style: ElevatedButton.styleFrom(
+                    shape: StadiumBorder(),
+                    primary: (_activeIndex == i)
+                        ? Color.fromRGBO(222, 179, 173, 1.0)
+                        : Color.fromRGBO(223, 211, 248, 1.0))),
           ),
       ],
     );
   }
-  /*Widget _buildSubPage(){
+
+
+
+  Widget _buildSubPage(){
     switch (_currentIndex){
       case 0 : return HomePage();
       case 1 : return MainCamera();
       case 2 : return ProfilePage();
       default: return SizedBox.shrink();
     }
-  }*/
+  }
 }
