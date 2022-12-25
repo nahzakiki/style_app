@@ -10,43 +10,55 @@ class MainCamera extends StatefulWidget {
 }
 
 class _MainCameraState extends State<MainCamera> {
-  int _activeIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-        onPressed: (){
-          _settingModalBottomSheet(context);
-        });
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 100),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('Yuyuyu'),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FloatingActionButton(onPressed: (){_showModalSheet();}),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
-  void _settingModalBottomSheet(context){
+  void _showModalSheet() {
     showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-                child: Wrap(
-                  children: <Widget>[
-                    ListTile(
-                      title: const Text('Camera'),
-                      onTap:(){
-                        Navigator.push(context,MaterialPageRoute(builder: (context){
-                          return CameraPage();
-                        }));
-                      } ,
-                    ),
-                    ListTile(
-                      title: const Text('Gallery'),
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return GelleryPage();
-                        }));
-                      },
-                    ),
-                  ],
-                ),
-
-          );
-        });
+      context: context,
+      builder: (builder) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.camera_alt),
+                title: Text('Camera'),
+                onTap: () {
+                  // Handle camera option tap
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('Gallery'),
+                onTap: () {
+                  // Handle gallery option tap
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

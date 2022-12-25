@@ -95,7 +95,7 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
                 ),
               ),
               Container(
-                child: Text(pageList[_activeIndex]),
+                child: Text(pageList[_activeIndex]), //เรียก database
               ),
               _buildSubPage(),
             ],
@@ -130,15 +130,46 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
       ],
     );
   }
+  void _showModalSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (builder) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.camera_alt),
+                title: Text('Camera'),
+                onTap: () {
+                  // Handle camera option tap
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('Gallery'),
+                onTap: () {
+                  // Handle gallery option tap
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
+  Widget _buildSubPage() {
 
-
-  Widget _buildSubPage(){
-    switch (_currentIndex){
-      case 0 : return HomePage();
-      case 1 : return MainCamera();
-      case 2 : return ProfilePage();
-      default: return SizedBox.shrink();
+    switch (_currentIndex) {
+      case 0 :
+        return HomePage();
+      case 1 :
+        return MainCamera();
+      case 2 :
+        return ProfilePage();
+      default:
+        return SizedBox.shrink();
     }
   }
 }
