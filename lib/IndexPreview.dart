@@ -1,6 +1,6 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-//import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
+import 'package:style_app/camera/Camera.dart';
+import 'package:style_app/camera/Gallery.dart';
 import 'package:style_app/camera/MainCamera.dart';
 import 'package:style_app/home/HomePage.dart';
 import 'package:style_app/home/ProfilePage.dart';
@@ -133,14 +133,20 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
                 leading: Icon(Icons.camera_alt),
                 title: Text('Camera'),
                 onTap: () {
-                  // Handle camera option tap
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (BuildContext context){
+                          return const CameraPage();
+                    }));
                 },
               ),
               ListTile(
                 leading: Icon(Icons.photo_library),
                 title: Text('Gallery'),
                 onTap: () {
-                  // Handle gallery option tap
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (BuildContext context){
+                        return const GalleryPage();
+                      }));
                 },
               ),
             ],

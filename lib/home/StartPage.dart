@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:style_app/IndexPreview.dart';
 
@@ -30,22 +28,21 @@ class _StartPageState extends State<StartPage> {
             Padding(
               padding: const EdgeInsets.only(top: 200),
               child: ElevatedButton(
-                onPressed: (){
+                onPressed: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (BuildContext context){
-                        return const IndexPreview();
-                      }
-                      )
-                  );
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return const IndexPreview();
+                  }));
                 },
                 child: Text(
                   'GET START',
                   style: TextStyle(
                       fontSize: 16,
-                      fontFamily: 'assets/fonts/Inter-VariableFont_slnt,wght.ttf'
-                  ),
+                      fontFamily:
+                          'assets/fonts/Inter-VariableFont_slnt,wght.ttf'),
                 ),
-                style: ElevatedButton.styleFrom(shape: StadiumBorder(),primary: Colors.brown),
+                style: ElevatedButton.styleFrom(
+                    shape: StadiumBorder(), primary: Colors.brown),
               ),
             )
           ],

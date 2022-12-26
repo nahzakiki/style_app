@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:style_app/camera/Camera.dart';
-import 'package:style_app/camera/Gellery.dart';
+import 'package:style_app/camera/Gallery.dart';
 
 class MainCamera extends StatefulWidget {
   const MainCamera({Key? key}) : super(key: key);
