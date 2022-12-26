@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:style_app/home/IndexPreview.dart';
+import 'package:style_app/IndexPreview.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);

@@ -12,9 +12,12 @@ class ProfilePage extends StatefulWidget{
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-          'Profile'
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: Center(
+        child: Text('Login'),
       ),
     );
   }
