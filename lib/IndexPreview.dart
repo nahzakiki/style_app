@@ -1,7 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:style_app/camera/Camera.dart';
 import 'package:style_app/camera/Gallery.dart';
 import 'package:style_app/camera/MainCamera.dart';
+import 'package:style_app/camera/PreviewPage.dart';
 import 'package:style_app/home/HomePage.dart';
 import 'package:style_app/home/ProfilePage.dart';
 
@@ -41,7 +48,6 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
 
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = HomePage();
-
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +127,31 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
     );
   }
 
+  XFile? image;
+
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => PreviewPage(image: image)));
+
+      //final imageTemporary = File(image.path);
+      final imagePermanent = await saveImagePermanent(image.path);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e ');
+    }
+  }
+
+  Future<File> saveImagePermanent(String imagePath) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = base64Decode(imagePath);
+    final image = File('${directory.path}/$name');
+
+    return File(imagePath).copy(image.path);
+  }
+
   void _showModalSheet() {
     showModalBottomSheet(
       context: context,
@@ -129,25 +160,17 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              //image != null ? PreviewPage(image: image!) : FlutterLogo(size: 100),
+              //const SizedBox(height: 100),
               ListTile(
                 leading: Icon(Icons.camera_alt),
                 title: Text('Camera'),
-                onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (BuildContext context){
-                          return const CameraPage();
-                    }));
-                },
+                onTap: () => pickImage(ImageSource.camera),
               ),
               ListTile(
                 leading: Icon(Icons.photo_library),
                 title: Text('Gallery'),
-                onTap: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (BuildContext context){
-                        return const GalleryPage();
-                      }));
-                },
+                onTap: () => pickImage(ImageSource.gallery),
               ),
             ],
           ),
