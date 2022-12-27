@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:style_app/camera/Camera.dart';
-import 'package:style_app/camera/Gallery.dart';
-import 'package:style_app/camera/MainCamera.dart';
 import 'package:style_app/camera/PreviewPage.dart';
 import 'package:style_app/home/HomePage.dart';
 import 'package:style_app/home/ProfilePage.dart';
@@ -42,7 +39,6 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
 
   List<Widget> screen = [
     HomePage(),
-    MainCamera(),
     ProfilePage(),
   ];
 
@@ -135,7 +131,7 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
       if (image == null) return;
 
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => PreviewPage(image: image)));
+          MaterialPageRoute(builder: (context) =>  PreviewPage(image: image)));
 
       //final imageTemporary = File(image.path);
       final imagePermanent = await saveImagePermanent(image.path);
