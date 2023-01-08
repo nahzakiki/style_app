@@ -17,25 +17,8 @@ class IndexPreview extends StatefulWidget {
 }
 
 class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
-  final List<String> StylesList = [
-    'Minimal Style',
-    'Sweet Style',
-    'Vintage Style',
-    'Sexy Style',
-    'Street Style',
-    'Casual Style'
-  ];
 
   int currentTab = 0;
-
-  List<String> pageList = [
-    'Minimal Style',
-    'Sweet Style',
-    'Vintage Style',
-    'Sexy Style',
-    'Street Style',
-    'Casual Style'
-  ];
 
   List<Widget> screen = [
     HomePage(),

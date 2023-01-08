@@ -1,5 +1,7 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +17,6 @@ class PreviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final color = Theme.of(context).colorScheme.primary;
-
     return Scaffold(
       body: Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -26,8 +27,8 @@ class PreviewPage extends StatelessWidget {
               children: [
                 ClipOval(
                   child: InkWell(
-                    onTap: ()  {
-
+                    onTap: () {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const IndexPreview()));
                     },
                     child: SizedBox(
                       width: 56,
@@ -63,7 +64,7 @@ class PreviewPage extends StatelessWidget {
                     child: InkWell(
                       splashColor: Colors.red,
                       onTap: () async {
-
+                        Navigator.pop(context);
                       },
                       child: SizedBox(
                         width: 56,
@@ -78,8 +79,7 @@ class PreviewPage extends StatelessWidget {
                     color: Color.fromRGBO(222, 216, 244, 1.0),
                     child: InkWell(
                       splashColor: Colors.red,
-                      onTap: () async {
-                      },
+                      onTap: () async {},
                       child: SizedBox(
                         width: 56,
                         height: 56,
@@ -96,25 +96,25 @@ class PreviewPage extends StatelessWidget {
     );
   }
 
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      PreviewPage(image: image);
 
-  //Image.file(File(image.path), fit: BoxFit.cover, width: 300),
-  /*Widget buildImage(BuildContext context) {
-    final imagePath = this.image.path;
-    final image = imagePath.contains('https://')
-        ? NetworkImage(imagePath)
-        : FileImage(File(imagePath));
+      //final imageTemporary = File(image.path);
+      final imagePermanent = await saveImagePermanent(image.path);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e ');
+    }
+  }
 
-    return Center(
-      child: Material(
-        color: Colors.transparent,
-        child: Ink.image(
-          image: image as ImageProvider,
-          fit: BoxFit.cover,
-          width: 250,
-          height: 250,
+  Future<File> saveImagePermanent(String imagePath) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = base64Decode(imagePath);
+    final image = File('${directory.path}/$name');
 
-        ),
-      ),
-    );
-  }*/
+    return File(imagePath).copy(image.path);
+  }
+
 }
