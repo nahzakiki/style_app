@@ -1,8 +1,10 @@
 import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gallery_saver/files.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,6 +18,68 @@ class PreviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    //ฟังก์ชันเก็บภาพ
+    Future pickImage(ImageSource source) async {
+      try {
+        final image = await ImagePicker().pickImage(source: source);
+        if (image == null) return;
+
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) =>  PreviewPage(image: image)));
+
+        final imagePermanent = await saveImagePermanent(image.path);
+      } on PlatformException catch (e) {
+        print('Failed to pick image: $e ');
+      }
+    }
+
+    void _showMaterialDialog(String title, String msg) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(msg, style: Theme.of(context).textTheme.bodyText2),
+            actions: [
+              // ปุ่ม OK ใน dialog
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  // ปิด dialog
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    void _showModalSheet() {
+      showModalBottomSheet(
+        context: context,
+        builder: (builder) {
+          return Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.camera_alt),
+                  title: Text('Camera'),
+                  onTap: () => pickImage(ImageSource.camera),
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo_library),
+                  title: Text('Gallery'),
+                  onTap: () => pickImage(ImageSource.gallery),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
     //final color = Theme.of(context).colorScheme.primary;
     return Scaffold(
       body: Center(
@@ -52,7 +116,7 @@ class PreviewPage extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 100),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(2.0),
             child: Row(
@@ -64,7 +128,7 @@ class PreviewPage extends StatelessWidget {
                     child: InkWell(
                       splashColor: Colors.red,
                       onTap: () async {
-                        Navigator.pop(context);
+                        _showModalSheet();
                       },
                       child: SizedBox(
                         width: 56,
@@ -79,7 +143,10 @@ class PreviewPage extends StatelessWidget {
                     color: Color.fromRGBO(222, 216, 244, 1.0),
                     child: InkWell(
                       splashColor: Colors.red,
-                      onTap: () async {},
+                      onTap: () async {
+                        print(image.path);
+                        GallerySaver.saveImage(image.path).then((path) => {_showMaterialDialog("baba","Save Image Successfully")});
+                      },
                       child: SizedBox(
                         width: 56,
                         height: 56,
@@ -96,19 +163,6 @@ class PreviewPage extends StatelessWidget {
     );
   }
 
-  Future pickImage(ImageSource source) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-      PreviewPage(image: image);
-
-      //final imageTemporary = File(image.path);
-      final imagePermanent = await saveImagePermanent(image.path);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e ');
-    }
-  }
-
   Future<File> saveImagePermanent(String imagePath) async {
     final directory = await getApplicationDocumentsDirectory();
     final name = base64Decode(imagePath);
@@ -116,5 +170,4 @@ class PreviewPage extends StatelessWidget {
 
     return File(imagePath).copy(image.path);
   }
-
 }

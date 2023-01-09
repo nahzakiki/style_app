@@ -14,10 +14,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        automaticallyImplyLeading: false,
+        title: Text('Profile'),
       ),
       body: Center(
-        child: Text('Login'),
+        child: Text('Profile'),
       ),
     );
   }
