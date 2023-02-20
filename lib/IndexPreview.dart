@@ -17,7 +17,6 @@ class IndexPreview extends StatefulWidget {
 }
 
 class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
-
   int currentTab = 0;
 
   List<Widget> screen = [
@@ -70,6 +69,12 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
                             color: currentTab == 0
                                 ? Color.fromRGBO(222, 179, 173, 1.0)
                                 : Color.fromRGBO(223, 211, 248, 1.0)),
+                        Text("Home",
+                            style: TextStyle(
+                                fontSize: 9,
+                                color: currentTab == 0
+                                    ? Color.fromRGBO(222, 179, 173, 1.0)
+                                    : Color.fromRGBO(223, 211, 248, 1.0))),
                       ],
                     ),
                   ),
@@ -94,6 +99,12 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
                             color: currentTab == 1
                                 ? Color.fromRGBO(222, 179, 173, 1.0)
                                 : Color.fromRGBO(223, 211, 248, 1.0)),
+                        Text("Home",
+                            style: TextStyle(
+                                fontSize: 9,
+                                color: currentTab == 1
+                                    ? Color.fromRGBO(222, 179, 173, 1.0)
+                                    : Color.fromRGBO(223, 211, 248, 1.0))),
                       ],
                     ),
                   ),
@@ -114,7 +125,7 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
       if (image == null) return;
 
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) =>  PreviewPage(image: image)));
+          MaterialPageRoute(builder: (context) => PreviewPage(image: image)));
 
       //final imageTemporary = File(image.path);
       final imagePermanent = await saveImagePermanent(image.path);

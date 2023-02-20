@@ -126,7 +126,7 @@ class PreviewPage extends StatelessWidget {
                   child: Material(
                     color: Color.fromRGBO(222, 216, 244, 1.0),
                     child: InkWell(
-                      splashColor: Colors.red,
+                      splashColor: Color.fromRGBO(222, 179, 173, 1.0),
                       onTap: () async {
                         _showModalSheet();
                       },
@@ -142,10 +142,10 @@ class PreviewPage extends StatelessWidget {
                   child: Material(
                     color: Color.fromRGBO(222, 216, 244, 1.0),
                     child: InkWell(
-                      splashColor: Colors.red,
+                      splashColor: Color.fromRGBO(222, 179, 173, 1.0),
                       onTap: () async {
                         print(image.path);
-                        GallerySaver.saveImage(image.path).then((path) => {_showMaterialDialog("baba","Save Image Successfully")});
+                        GallerySaver.saveImage(image.path).then((path) => {_showMaterialDialog("Save image!!","Save Image Successfully")});
                       },
                       child: SizedBox(
                         width: 56,
