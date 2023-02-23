@@ -1,15 +1,13 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gallery_saver/files.dart';
 import 'package:gallery_saver/gallery_saver.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:style_app/IndexPreview.dart';
-import 'package:style_app/home/HomePage.dart';
 
 class PreviewPage extends StatelessWidget {
   final XFile image;
@@ -18,7 +16,6 @@ class PreviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     //ฟังก์ชันเก็บภาพ
     Future pickImage(ImageSource source) async {
       try {
@@ -26,7 +23,7 @@ class PreviewPage extends StatelessWidget {
         if (image == null) return;
 
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) =>  PreviewPage(image: image)));
+            MaterialPageRoute(builder: (context) => PreviewPage(image: image)));
 
         final imagePermanent = await saveImagePermanent(image.path);
       } on PlatformException catch (e) {
@@ -40,10 +37,14 @@ class PreviewPage extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(title),
-            content: Text(msg, style: Theme.of(context).textTheme.bodyText2),
+            content: Text(msg, style: Theme.of(context).textTheme.labelLarge),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
             actions: [
               // ปุ่ม OK ใน dialog
               TextButton(
+                style: TextButton.styleFrom(
+                    textStyle: Theme.of(context).textTheme.labelLarge),
                 child: const Text('OK'),
                 onPressed: () {
                   // ปิด dialog
@@ -80,6 +81,7 @@ class PreviewPage extends StatelessWidget {
         },
       );
     }
+
     //final color = Theme.of(context).colorScheme.primary;
     return Scaffold(
       body: Center(
@@ -92,7 +94,10 @@ class PreviewPage extends StatelessWidget {
                 ClipOval(
                   child: InkWell(
                     onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const IndexPreview()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const IndexPreview()));
                     },
                     child: SizedBox(
                       width: 56,
@@ -101,10 +106,14 @@ class PreviewPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(
+                  width: 30,
+                ),
+                Text('Street Style', style: TextStyle(fontSize: 36)),
               ],
             ),
           ),
-          Text('Street Style', style: TextStyle(fontSize: 36)),
+          //Text('Street Style', style: TextStyle(fontSize: 36)),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ClipRRect(
@@ -120,7 +129,7 @@ class PreviewPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(2.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ClipOval(
                   child: Material(
@@ -145,7 +154,10 @@ class PreviewPage extends StatelessWidget {
                       splashColor: Color.fromRGBO(222, 179, 173, 1.0),
                       onTap: () async {
                         print(image.path);
-                        GallerySaver.saveImage(image.path).then((path) => {_showMaterialDialog("Save image!!","Save Image Successfully")});
+                        GallerySaver.saveImage(image.path).then((path) => {
+                              _showMaterialDialog(
+                                  "Save image!!", "Save Image Successfully")
+                            });
                       },
                       child: SizedBox(
                         width: 56,

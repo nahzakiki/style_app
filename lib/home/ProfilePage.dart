@@ -1,3 +1,4 @@
+import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -15,32 +16,33 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 60),
-            child: Container(
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 120,
-                    height: 120,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: const Image(
-                          image: AssetImage("assets/images/S__5963780.jpg")),
+            child: Stack(
+              children: [
+                AvatarView(
+                  radius: 65,
+                  borderWidth: 6,
+                  borderColor: Color.fromRGBO(219, 221, 243, 1.0),
+                  avatarType: AvatarType.CIRCLE,
+                  //backgroundColor:  Color.fromRGBO(219, 221, 243, 1.0),
+                  imagePath: "assets/images/S__5963780.jpg",
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: GestureDetector(
+                    onTap: (){},
+                    child: Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Color.fromRGBO(219, 221, 243, 1.0)),
+                      child: Icon(Icons.edit_rounded,
+                          color: Color.fromRGBO(35, 31, 32, 0.6)),
                     ),
                   ),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 35,
-                        height: 35,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Colors.cyanAccent),
-                        child: Icon(Icons.edit_rounded,color: Colors.black12),
-                      ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Padding(
