@@ -8,11 +8,31 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:style_app/IndexPreview.dart';
+import 'package:style_app/services/api.dart';
 
-class PreviewPage extends StatelessWidget {
+class PreviewPage extends StatefulWidget {
   final XFile image;
+  const PreviewPage({Key? key, required this.image}) : super(key: key);
+
+  @override
+  State<PreviewPage> createState() => _PreviewPageState();
+}
+
+class _PreviewPageState extends State<PreviewPage> {
+  late XFile image;
   String albumName = 'Media';
-  PreviewPage({Key? key, required this.image}) : super(key: key);
+
+  late Future<List> result;
+  Future<List> _getResult() async{
+    return await Api().submit("predict", image);
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    this.image = widget.image;
+    this.result = _getResult();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +141,7 @@ class PreviewPage extends StatelessWidget {
               child: SizedBox.fromSize(
                 size: Size(300, 450),
                 child:
-                    Image.file(File(image.path), fit: BoxFit.cover, width: 300),
+                Image.file(File(image.path), fit: BoxFit.cover, width: 300),
               ),
             ),
           ),
@@ -155,9 +175,9 @@ class PreviewPage extends StatelessWidget {
                       onTap: () async {
                         print(image.path);
                         GallerySaver.saveImage(image.path).then((path) => {
-                              _showMaterialDialog(
-                                  "Save image!!", "Save Image Successfully")
-                            });
+                          _showMaterialDialog(
+                              "Save image!!", "Save Image Successfully")
+                        });
                       },
                       child: SizedBox(
                         width: 56,
@@ -183,3 +203,4 @@ class PreviewPage extends StatelessWidget {
     return File(imagePath).copy(image.path);
   }
 }
+

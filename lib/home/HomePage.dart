@@ -1,3 +1,5 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,7 +18,7 @@ class _HomePageState extends State<HomePage> {
     'Street Style',
     'Casual Style'
   ];
-
+  //final storage = FirebaseStorage.instanceFor(bucket: "gs://my-custom-bucket");
   List<String> pageList = [
     'Minimal Style',
     'Sweet Style',
