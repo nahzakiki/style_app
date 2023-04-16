@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:style_app/IndexPreview.dart';
 import 'package:style_app/home/ProfilePage.dart';
 
 class EditProfile extends StatefulWidget {
@@ -10,12 +11,13 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  final List<String> genderItems = ['Male', 'Female', 'Non Binary'];
+  final List<String> genderItems = ['Male', 'Female', 'Not Gender'];
   String? selectedGender;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Color.fromRGBO(249, 241, 240, 1.0),
       body: Center(
         child: Column(
@@ -162,6 +164,8 @@ class _EditProfileState extends State<EditProfile> {
                         child: DropdownButtonFormField2(
                           decoration: InputDecoration(
                               isDense: true,
+                              filled: true,
+                              fillColor: Color.fromRGBO(254, 254, 254, 0.65),
                               contentPadding: EdgeInsets.all(10.0),
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -207,6 +211,8 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                               iconSize: 30),
                           dropdownStyleData: DropdownStyleData(
+                            padding: null,
+                            offset: const Offset(0,28),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -232,7 +238,8 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                      shape: StadiumBorder(), primary: Color.fromRGBO(18, 12, 12, 0.65)),
+                      shape: StadiumBorder(),
+                      primary: Color.fromRGBO(18, 12, 12, 0.65)),
                 ),
               ),
             ),
@@ -243,7 +250,11 @@ class _EditProfileState extends State<EditProfile> {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const IndexPreview()),
+                    );
                   },
                   child: Text(
                     'Cancel',
@@ -252,7 +263,8 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                      shape: StadiumBorder(), primary: Color.fromRGBO(224, 29, 29, 0.65)),
+                      shape: StadiumBorder(),
+                      primary: Color.fromRGBO(224, 29, 29, 0.65)),
                 ),
               ),
             ),

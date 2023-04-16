@@ -1,5 +1,6 @@
 import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:style_app/home/AbotNG.dart';
 import 'package:style_app/home/EditProfile.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -73,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
                     return const EditProfile();
                   }));
@@ -100,9 +101,9 @@ class _ProfilePageState extends State<ProfilePage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return const EditProfile();
+                    return const AboutNG();
                   }));
                 },
                 child: const Text(
