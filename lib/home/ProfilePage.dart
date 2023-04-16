@@ -1,5 +1,6 @@
 import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:style_app/home/EditProfile.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   bottom: 0,
                   right: 0,
                   child: GestureDetector(
-                    onTap: (){},
+                    onTap: () {},
                     child: Container(
                       width: 35,
                       height: 35,
@@ -71,7 +72,12 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 60,
               width: 300,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return const EditProfile();
+                  }));
+                },
                 child: const Text(
                   "Edit Profile",
                   style: TextStyle(
@@ -93,7 +99,12 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 60,
               width: 300,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return const EditProfile();
+                  }));
+                },
                 child: const Text(
                   "About NGstyle",
                   style: TextStyle(
