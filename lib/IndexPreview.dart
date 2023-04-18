@@ -128,7 +128,7 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
           MaterialPageRoute(builder: (context) => PreviewPage(image: image)));
 
       //final imageTemporary = File(image.path);
-      final imagePermanent = await saveImagePermanent(image.path);
+      //final imagePermanent = await saveImagePermanent(image.path);
     } on PlatformException catch (e) {
       print('Failed to pick image: $e ');
     }
