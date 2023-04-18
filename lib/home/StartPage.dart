@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:style_app/IndexPreview.dart';
+import 'package:style_app/Login/Login.dart';
+import 'package:style_app/Login/TermOfUse.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);
@@ -31,7 +33,7 @@ class _StartPageState extends State<StartPage> {
                 onPressed: () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return const IndexPreview();
+                    return const TermsofUse();
                   }));
                 },
                 child: Text(

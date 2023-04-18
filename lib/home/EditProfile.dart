@@ -16,8 +16,10 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
 
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom !=0;
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromRGBO(249, 241, 240, 1.0),
       body: Center(
         child: Column(
