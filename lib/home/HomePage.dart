@@ -1,6 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:style_app/services/api.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,6 +31,18 @@ class _HomePageState extends State<HomePage> {
   ];
 
   int _activeIndex = 0;
+  late Future<List> _clothesList;
+
+  @override
+  void initState() {
+    _clothesList = _getClothes();
+    super.initState();
+  }
+
+  Future<List> _getClothes() async {
+    String style = pageList[_activeIndex].split(" ")[0];
+    return await  Api().getClothes('clothes', style.toLowerCase());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +75,43 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Container(
-                child: Text(pageList[_activeIndex]), //เรียก database
-              ),
+              FutureBuilder<List>(
+                  future: _clothesList,
+                builder: (context, snapshot) {
+                  if(snapshot.connectionState != ConnectionState.done){
+                    return const CircularProgressIndicator(); //เปลื่ยน loader หา สวยมาเดี๋ยวรันโมโห
+                  }
+
+                  if(snapshot.hasError){
+                    return  Text("เกิดข้อผิดพลาด ${snapshot.error}");
+                  }
+
+                  if(snapshot.hasData){
+                    var data = snapshot.data!;
+
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height - 200,
+                        child: MasonryGridView.count(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            return ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image.network(data[index].url)
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  }
+
+                  return const SizedBox.shrink();
+                },
+              )
               //_buildSubPage(),
             ],
           ),
@@ -82,7 +130,9 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   setState(() {
                     _activeIndex = i;
+                    _clothesList = _getClothes();
                   });
+
                 },
                 child: Text(
                   '${StylesList[i]}',
