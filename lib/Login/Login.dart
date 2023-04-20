@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:style_app/IndexPreview.dart';
+import 'package:style_app/services/google_sign_in.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -10,6 +12,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  GoogleSignInAccount? _googleUser;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,11 +45,19 @@ class _LoginState extends State<Login> {
                   width: 300,
                   height: 50,
                   child: SocialLoginButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                            return const IndexPreview();
-                          }));
+                    onPressed: () async {
+                      // Call _googleSignIn and assign its result to _googleUser
+                      _googleUser = await _googleSignIn();
+                      if (_googleUser != null) {
+                        // If _googleUser is not null, navigate to IndexPreview
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (context) => IndexPreview()));
+                      } else {
+                        // If _googleUser is null, show a SnackBar with an error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Sign in failed')));
+                      }
                     },
                     buttonType: SocialLoginButtonType.google,
                     text: 'Continue with Google',
@@ -62,8 +75,8 @@ class _LoginState extends State<Login> {
                     onPressed: () {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                            return const IndexPreview();
-                          }));
+                        return const IndexPreview();
+                      }));
                     },
                     buttonType: SocialLoginButtonType.facebook,
                     text: 'Continue with Facebook',
@@ -77,5 +90,9 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<GoogleSignInAccount?> _googleSignIn() async {
+    return await GoogleSignInApi.login();
   }
 }

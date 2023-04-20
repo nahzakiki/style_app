@@ -9,6 +9,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:style_app/IndexPreview.dart';
 import 'package:style_app/models/styleModel.dart';
 import 'package:style_app/services/api.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class PreviewPage extends StatefulWidget {
   final XFile image;
@@ -43,25 +44,18 @@ class _PreviewPageState extends State<PreviewPage> {
       Map<String, dynamic> jsonData = jsonDecode(response);
       print(jsonData);
       StyleModel resultMap = StyleModel.fromJson(jsonData);
-      double max = -1;
-      if(resultMap.top!.confidence! > max) {
-        max = resultMap.top!.confidence!;
+      className = styleMap[resultMap.top?.className]!;
+
+      if(resultMap.top!.className! != resultMap.low!.className!) {
         setState(() {
-          className = styleMap[resultMap.top?.className]!;
+          className += ", ${styleMap[resultMap.low?.className]!}";
         });
       }
-      if(resultMap.low!.confidence! > max) {
-        max = resultMap.low!.confidence!;
-        setState(() {
-          className = styleMap[resultMap.low?.className]!;
-        });
-      }
-      if(resultMap.shoe!.confidence! > max) {
-        max = resultMap.shoe!.confidence!;
-        setState(() {
-          className = styleMap[resultMap.shoe?.className]!;
-        });
-      }
+     if((resultMap.shoe!.className! != resultMap.top!.className!) &&( resultMap.shoe!.className! != resultMap.low!.className!)){
+       setState(() {
+         className += ", ${styleMap[resultMap.shoe?.className]!}";
+       });
+     }
     } catch (e) {
       print('Error fetching data: $e');
     } finally {
@@ -172,10 +166,7 @@ class _PreviewPageState extends State<PreviewPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 30,
-                    ),
-                    Text(className, style: TextStyle(fontSize: 36)),
+                    AutoSizeText(className, maxLines: 1,),
                   ],
                 ),
               ),
