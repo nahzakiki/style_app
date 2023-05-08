@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:style_app/IndexPreview.dart';
+import 'package:style_app/Login/TermOfUse.dart';
 import 'package:style_app/services/google_sign_in.dart';
 
 class Login extends StatefulWidget {
@@ -75,7 +76,7 @@ class _LoginState extends State<Login> {
                     onPressed: () {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return const IndexPreview();
+                        return const TermsofUse();
                       }));
                     },
                     buttonType: SocialLoginButtonType.facebook,

@@ -63,6 +63,9 @@ dependencies:
   social_login_buttons: ^1.0.7
   auto_size_text: ^3.0.0
   google_sign_in: ^6.1.0
+  carousel_slider: ^4.2.1
+  percent_indicator: ^4.2.3
+  roundcheckbox: ^2.0.5
 
 dev_dependencies:
   flutter_test:

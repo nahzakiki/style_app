@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:style_app/Login/Login.dart';
+import 'package:style_app/choose_style/choose_style.dart';
 import 'package:style_app/home/StartPage.dart';
 
 class TermsofUse extends StatefulWidget {
@@ -42,7 +43,7 @@ class _TermsofUseState extends State<TermsofUse> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Login()));
+                        MaterialPageRoute(builder: (context) => ChooseStyle()));
                   },
                   child: Text('Accept'),
                   style: ElevatedButton.styleFrom(

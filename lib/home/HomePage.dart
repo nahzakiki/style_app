@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<String> StylesList = [
+    'For You',
     'Minimal Style',
     'Sweet Style',
     'Vintage Style',
@@ -22,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   ];
   //final storage = FirebaseStorage.instanceFor(bucket: "gs://my-custom-bucket");
   List<String> pageList = [
+    'For You',
     'Minimal Style',
     'Sweet Style',
     'Vintage Style',
