@@ -5,7 +5,6 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:style_app/IndexPreview.dart';
 import 'package:style_app/models/styleModel.dart';
 import 'package:style_app/services/api.dart';
