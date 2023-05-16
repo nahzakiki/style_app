@@ -144,6 +144,10 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
 
   void _showModalSheet() {
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+      ),
       context: context,
       builder: (builder) {
         return Container(

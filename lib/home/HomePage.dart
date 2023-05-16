@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:style_app/services/api.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<List> _getClothes() async {
     String style = pageList[_activeIndex].split(" ")[0];
-    return await  Api().getClothes('clothes', style.toLowerCase());
+    return await Api().getClothes('clothes', style.toLowerCase());
   }
 
   @override
@@ -78,17 +79,19 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               FutureBuilder<List>(
-                  future: _clothesList,
+                future: _clothesList,
                 builder: (context, snapshot) {
-                  if(snapshot.connectionState != ConnectionState.done){
-                    return const CircularProgressIndicator(); //เปลื่ยน loader หา สวยมาเดี๋ยวรันโมโห
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return LoadingAnimationWidget.fourRotatingDots(
+                            color: Color.fromRGBO(222, 179, 173, 1.0),
+                            size: 40); //เปลื่ยน loader หา สวยมาเดี๋ยวรันโมโห
                   }
 
-                  if(snapshot.hasError){
-                    return  Text("เกิดข้อผิดพลาด ${snapshot.error}");
+                  if (snapshot.hasError) {
+                    return Text("เกิดข้อผิดพลาด ${snapshot.error}");
                   }
 
-                  if(snapshot.hasData){
+                  if (snapshot.hasData) {
                     var data = snapshot.data!;
 
                     return Padding(
@@ -103,8 +106,7 @@ class _HomePageState extends State<HomePage> {
                           itemBuilder: (context, index) {
                             return ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
-                                child: Image.network(data[index].url)
-                            );
+                                child: Image.network(data[index].url));
                           },
                         ),
                       ),
@@ -134,7 +136,6 @@ class _HomePageState extends State<HomePage> {
                     _activeIndex = i;
                     _clothesList = _getClothes();
                   });
-
                 },
                 child: Text(
                   '${StylesList[i]}',

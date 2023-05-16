@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:style_app/IndexPreview.dart';
 import 'package:style_app/models/styleModel.dart';
@@ -217,6 +218,10 @@ class _PreviewPageState extends State<PreviewPage> {
                         ),
                         onPressed: () {
                           showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20.0),
+                                      topRight: Radius.circular(20.0))),
                               context: context,
                               builder: (context) {
                                 return SingleChildScrollView(
@@ -225,6 +230,11 @@ class _PreviewPageState extends State<PreviewPage> {
                                     child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
+                                          Text('Detail',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              )),
                                           Card(
                                             color: const Color.fromRGBO(
                                                 237, 192, 192, 1),
@@ -451,9 +461,7 @@ class _PreviewPageState extends State<PreviewPage> {
                                             ),
                                           ),
                                           ElevatedButton(
-                                            onPressed: () {
-                                             
-                                            },
+                                            onPressed: () {},
                                             child: Text(
                                               'RECOMANDATIONS',
                                               style: TextStyle(
@@ -510,7 +518,8 @@ class _PreviewPageState extends State<PreviewPage> {
             height: double.infinity,
             color: Color.fromRGBO(0, 0, 0, 0.8),
             child: Center(
-              child: CircularProgressIndicator(),
+              child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Color.fromRGBO(222, 179, 173, 1.0), size: 50),
             ),
           ),
       ],
