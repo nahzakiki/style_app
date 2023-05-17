@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:style_app/Login/Login.dart';
+import 'package:style_app/choose_style/Birthdays.dart';
 import 'package:style_app/choose_style/choose_style.dart';
 import 'package:style_app/home/StartPage.dart';
 
@@ -43,7 +44,7 @@ class _TermsofUseState extends State<TermsofUse> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ChooseStyle()));
+                        MaterialPageRoute(builder: (context) => Birthdays()));
                   },
                   child: Text('Accept'),
                   style: ElevatedButton.styleFrom(
