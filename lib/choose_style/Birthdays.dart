@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:style_app/choose_style/choose_style.dart';
 
@@ -23,34 +24,47 @@ class _BirthdaysState extends State<Birthdays> {
               "Birthday's",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
             ),
-            Container(
-              width: 250,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20.0)
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Container(
+                width: 300,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                      hintText: 'ปีเกิดของคุณ',
+                      contentPadding: EdgeInsets.all(10),
+                      border: InputBorder.none),
+                  onChanged: (value) {},
+                ),
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return const ChooseStyle();
-                  }));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(102, 54, 53, 1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32.0),
+            Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return const ChooseStyle();
+                    }));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(102, 54, 53, 1),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    ),
                   ),
-                ),
-                child: const Text(
-                  'NEXT',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily:
-                          'assets/fonts/Inter-VariableFont_slnt,wght.ttf'),
-                )),
+                  child: const Text(
+                    'NEXT',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily:
+                            'assets/fonts/Inter-VariableFont_slnt,wght.ttf'),
+                  )),
+            ),
           ],
         ),
       ),

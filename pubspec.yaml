@@ -67,6 +67,7 @@ dependencies:
   roundcheckbox: ^2.0.5
   loading_animation_widget: ^1.2.0+4
   datepicker_dropdown: ^0.0.7+4
+  flutter_rounded_date_picker: ^3.0.3
 
 dev_dependencies:
   flutter_test:
