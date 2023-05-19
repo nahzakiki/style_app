@@ -230,6 +230,14 @@ class _PreviewPageState extends State<PreviewPage> {
                                     child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
+                                          Container(
+                                            width: 50,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: Colors.black12),
+                                          ),
                                           Text('Detail',
                                               style: TextStyle(
                                                 fontSize: 20,

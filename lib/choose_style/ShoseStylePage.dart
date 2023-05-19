@@ -57,7 +57,7 @@ class _ShoseStylePageState extends State<ShoseStylePage> {
               child: Column(
                 children: [
                   Text(
-                    "Select Your Style ($selectCount/3)",
+                    "Select your style? ($selectCount/3)",
                     style: const TextStyle(
                         fontSize: 24.0, fontWeight: FontWeight.bold),
                   ),
