@@ -22,10 +22,20 @@ class PreviewPage extends StatefulWidget {
 
 class _PreviewPageState extends State<PreviewPage> {
   late XFile image;
+  late StyleModel resultMap;
   String albumName = 'Media';
   bool _isLoading = false;
   String className = "Loading...";
   bool value = false;
+
+  Map<String, String> styleMap = {
+    "vintage": "Vintage Style",
+    "sexy": "Sexy Style",
+    "casual": "Casual Style",
+    "street": "Street Style",
+    "sweet": "Sweeet Style",
+    "minimal": "Minimal Style",
+  };
 
   void fetchResult() async {
     setState(() {
@@ -33,18 +43,10 @@ class _PreviewPageState extends State<PreviewPage> {
     });
 
     try {
-      Map<String, String> styleMap = {
-        "vintage": "Vintage Style",
-        "sexy": "Sexy Style",
-        "casual": "Casual Style",
-        "street": "Street Style",
-        "sweet": "Sweeet Style",
-        "minimal": "Minimal Style",
-      };
       final response = await Api().submit("predict", image);
       Map<String, dynamic> jsonData = jsonDecode(response);
       print(jsonData);
-      StyleModel resultMap = StyleModel.fromJson(jsonData);
+      resultMap = StyleModel.fromJson(jsonData);
       className = styleMap[resultMap.top?.className]!;
 
       if (resultMap.top!.className! != resultMap.low!.className!) {
@@ -267,8 +269,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10),
-                                                      child: Image.network(
-                                                        "https://cdn.discordapp.com/attachments/743841976365088841/1105123339598569555/outfit.jpg",
+                                                      child: Image.memory(
+                                                        base64Decode(resultMap.top!.base64!),
                                                         width: 100.0,
                                                       )),
                                                   const SizedBox(
@@ -286,8 +288,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text("Sweet Style"),
-                                                        Text("Confidence: 80%"),
+                                                        Text(styleMap[resultMap.top?.className]!),
+                                                        Text("Confidence: ${(resultMap.top!.confidence!*100).toStringAsFixed(2)}%"),
                                                         Row(
                                                           children: [
                                                             RoundCheckBox(
@@ -342,8 +344,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10),
-                                                      child: Image.network(
-                                                        "https://cdn.discordapp.com/attachments/743841976365088841/1105123339846041731/outfit_1.jpg",
+                                                      child: Image.memory(
+                                                        base64Decode(resultMap.low!.base64!),
                                                         width: 100.0,
                                                       )),
                                                   const SizedBox(
@@ -361,8 +363,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text("Sweet Style"),
-                                                        Text("Confidence: 80%"),
+                                                        Text(styleMap[resultMap.low?.className]!),
+                                                        Text("Confidence: ${(resultMap.low!.confidence!*100).toStringAsFixed(2)}%"),
                                                         Row(
                                                           children: [
                                                             RoundCheckBox(
@@ -417,8 +419,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10),
-                                                      child: Image.network(
-                                                        "https://cdn.discordapp.com/attachments/743841976365088841/1105123451708129310/rmbg_1.jpg",
+                                                      child: Image.memory(
+                                                        base64Decode(resultMap.shoe!.base64!),
                                                         width: 100.0,
                                                       )),
                                                   const SizedBox(
@@ -436,8 +438,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text("Sweet Style"),
-                                                        Text("Confidence: 80%"),
+                                                        Text(styleMap[resultMap.shoe?.className]!),
+                                                        Text("Confidence: ${(resultMap.shoe!.confidence!*100).toStringAsFixed(2)}%"),
                                                         Row(
                                                           children: [
                                                             RoundCheckBox(

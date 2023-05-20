@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:style_app/Login/Login.dart';
 import 'package:style_app/choose_style/Birthdays.dart';
 import 'package:style_app/choose_style/choose_style.dart';
 import 'package:style_app/home/StartPage.dart';
+
+import '../controller/user_state.dart';
 
 class TermsofUse extends StatefulWidget {
   const TermsofUse({Key? key}) : super(key: key);
@@ -12,6 +15,14 @@ class TermsofUse extends StatefulWidget {
 }
 
 class _TermsofUseState extends State<TermsofUse> {
+  final userController = Get.put(UserController());
+
+  @override
+  void initState() {
+    print(userController.userID.toString());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

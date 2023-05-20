@@ -2,18 +2,21 @@
 class Low {
   String? className;
   double? confidence;
+  String? base64;
 
-  Low({this.className, this.confidence});
+  Low({this.className, this.confidence, this.base64});
 
   Low.fromJson(Map<String, dynamic> json) {
     className = json['class'];
   confidence = double.parse(json['confidence']);
+  base64 = json['base64'];
   }
 
   Map<String, dynamic> toJson() {
   final Map<String, dynamic> data = Map<String, dynamic>();
   data['class'] = className;
   data['confidence'] = confidence;
+  data['base64'] = base64;
   return data;
   }
 }
@@ -43,37 +46,43 @@ class StyleModel {
 class Shoe {
   String? className;
   double? confidence;
+  String? base64;
 
-  Shoe({this.className, this.confidence});
+  Shoe({this.className, this.confidence, this.base64});
 
   Shoe.fromJson(Map<String, dynamic> json) {
     className = json['class'];
-  confidence = double.parse(json['confidence']);
+    confidence = double.parse(json['confidence']);
+    base64 = json['base64'];
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = Map<String, dynamic>();
-  data['class'] = className;
-  data['confidence'] = confidence;
-  return data;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['class'] = className;
+    data['confidence'] = confidence;
+    data['base64'] = base64;
+    return data;
   }
 }
 
 class Top {
   String? className;
   double? confidence;
+  String? base64;
 
-  Top({this.className, this.confidence});
+  Top({this.className, this.confidence, this.base64});
 
   Top.fromJson(Map<String, dynamic> json) {
     className = json['class'];
-  confidence = double.parse(json['confidence']);
+    confidence = double.parse(json['confidence']);
+    base64 = json['base64'];
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = Map<String, dynamic>();
-  data['class'] = className;
-  data['confidence'] = confidence;
-  return data;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['class'] = className;
+    data['confidence'] = confidence;
+    data['base64'] = base64;
+    return data;
   }
 }

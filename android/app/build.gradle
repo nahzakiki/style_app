@@ -91,7 +91,6 @@ buildscript {
 }
 
 allprojects {
-
     repositories {
         // Make sure that you have the following two repositories
         google()  // Google's Maven repository
@@ -109,6 +108,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:31.5.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
