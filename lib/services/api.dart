@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:gallery_saver/files.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:style_app/models/clothesModel.dart';
 
 class Api {
-  static const BASE_URL = "https://ca62-2001-fb1-18-a82f-79eb-a766-fa5-798b.ap.ngrok.io";
+  static const BASE_URL = "https://a9dd-2001-fb1-18-a82f-40bb-2e59-4129-21ea.ap.ngrok.io";
   Future<dynamic> submit(String endpoint, XFile image) async{
     File imageFile = File(image.path);
     print(image.path);
@@ -72,6 +71,82 @@ class Api {
 
     } else {
       throw 'Server connection failed!';
+    }
+  }
+
+  Future<Map<String, dynamic>> updateUserInfo(String endpoint, String bd, String gender, String uid) async{
+    var url = Uri.parse('$BASE_URL/$endpoint');
+    var body = {"birth_date": bd, "gender": gender, "user_id": uid, "term_of_use": true};
+
+    final response = await http.put(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(body),
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonBody = json.decode(response.body);
+      print('RESPONSE BODY: $jsonBody');
+
+      return jsonBody;
+
+    } else {
+      throw 'Server connection failed!';
+    }
+  }
+
+  Future<String> imageSearchForNew(String endpoint, String top1, String top2, String top3, String uid) async{
+    var request = http.MultipartRequest('POST', Uri.parse('${BASE_URL}/${endpoint}'));
+    request.headers['x-uid'] = uid;
+
+    var response = await http.get(Uri.parse(top1));
+    var imageBytes = response.bodyBytes;
+    var imageStream = http.ByteStream.fromBytes(imageBytes);
+    var imageLength = imageBytes.length;
+    var imageMultipartFile = http.MultipartFile.fromBytes(
+      'top1',
+      imageBytes,
+      filename: 'top1.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+
+    response = await http.get(Uri.parse(top2));
+    imageBytes = response.bodyBytes;
+    imageLength = imageBytes.length;
+    imageMultipartFile = http.MultipartFile.fromBytes(
+      'top2',
+      imageBytes,
+      filename: 'top2.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+
+    response = await http.get(Uri.parse(top3));
+    imageBytes = response.bodyBytes;
+    imageLength = imageBytes.length;
+    imageMultipartFile = http.MultipartFile.fromBytes(
+      'top3',
+      imageBytes,
+      filename: 'top3.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+
+    try {
+      print("aaa");
+      // Send the request and await for the response
+      var responses = await request.send();
+      if (responses.statusCode == 200) {
+        final String responseString = await responses.stream.bytesToString();
+        print(responseString);
+        return  responseString;
+      } else {
+        throw Exception('Server connection failed!'); // Use proper exception handling
+      }
+    } catch (e) {
+      print('Error: $e'); // Print error for debugging
+      throw Exception('Failed to upload image: $e'); // Provide meaningful error message
     }
   }
 }

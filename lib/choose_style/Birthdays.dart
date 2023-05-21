@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:style_app/choose_style/SelectGender.dart';
 import 'package:style_app/choose_style/choose_style.dart';
+import 'package:style_app/controller/user_state.dart';
 
 class Birthdays extends StatefulWidget {
   const Birthdays({Key? key}) : super(key: key);
@@ -11,6 +13,10 @@ class Birthdays extends StatefulWidget {
 }
 
 class _BirthdaysState extends State<Birthdays> {
+
+  TextEditingController _controller = TextEditingController();
+  final userController = Get.put(UserController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +41,21 @@ class _BirthdaysState extends State<Birthdays> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: TextFormField(
+                  controller: _controller,
                   decoration: const InputDecoration(
                       hintText: 'ปีเกิดของคุณ เช่น 1995',
                       contentPadding: EdgeInsets.all(10),
                       border: InputBorder.none),
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    if(_controller.text.length < 4) {
+
+                      userController.setBirthDate(_controller.text);
+                    }else{
+                      setState(() {
+                        _controller.text = _controller.text.substring(0,4);
+                      });
+                    }
+                  },
                 ),
               ),
             ),

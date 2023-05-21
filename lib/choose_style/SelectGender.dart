@@ -1,6 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:style_app/choose_style/choose_style.dart';
+
+import '../controller/user_state.dart';
+import '../services/api.dart';
 
 class SelectGender extends StatefulWidget {
   const SelectGender({Key? key}) : super(key: key);
@@ -11,7 +15,15 @@ class SelectGender extends StatefulWidget {
 
 class _SelectGenderState extends State<SelectGender> {
   final List<String> genderItems = ['Male', 'Female', 'Not Gender'];
-  String? selectedGender;
+  String selectedGender = "";
+  final userController = Get.put(UserController());
+
+  @override
+  void initState() {
+   print(userController.userID);
+   print(userController.birthDate);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +69,7 @@ class _SelectGenderState extends State<SelectGender> {
                     "Gender",
                     style: TextStyle(fontSize: 14),
                   ),
+
                   items: genderItems
                       .map((item) => DropdownMenuItem<String>(
                     value: item,
@@ -74,9 +87,8 @@ class _SelectGenderState extends State<SelectGender> {
                     }
                     return null;
                   },
-                  onChanged: (value) {},
-                  onSaved: (value) {
-                    selectedGender = value.toString();
+                  onChanged: (value) {
+                    selectedGender = value!;
                   },
                   buttonStyleData: const ButtonStyleData(
                     padding: EdgeInsets.only(left: 20, right: 20),
@@ -100,11 +112,14 @@ class _SelectGenderState extends State<SelectGender> {
             Padding(
               padding: const EdgeInsets.only(top: 30.0),
               child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                          return const ChooseStyle();
-                        }));
+                  onPressed: () async {
+                    var res = await Api().updateUserInfo("user", userController.birthDate, selectedGender, userController.userID);
+                    if(res['message'] == "success") {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                            return const ChooseStyle();
+                          }));
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(102, 54, 53, 1),

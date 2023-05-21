@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 import 'package:style_app/choose_style/LowerStylePage.dart';
+import 'package:style_app/services/api.dart';
+
+import '../controller/user_state.dart';
 
 class TopStylePage extends StatefulWidget {
   const TopStylePage({super.key});
@@ -14,6 +18,7 @@ class TopStylePage extends StatefulWidget {
 class _TopStylePageState extends State<TopStylePage> {
   final PageController _pageController = PageController(viewportFraction: 0.8);
   int activePage = 0;
+  final userController = Get.put(UserController());
   List<bool> selects = [
     false,
     false,
@@ -44,6 +49,7 @@ class _TopStylePageState extends State<TopStylePage> {
     "https://cdn.discordapp.com/attachments/743841976365088841/1105066877685874748/top_casual_661.jpg"
   ];
 
+  List<String> url = ["", "", ""];
   int selectCount = 0;
 
   @override
@@ -75,7 +81,7 @@ class _TopStylePageState extends State<TopStylePage> {
                             setState(() {
                               if (selectCount < 3) {
                                 selects[index] = !selects[index];
-      
+                                url[selectCount] = images[index];
                                 if (selects[index]) {
                                   selectCount++;
                                 }else{
@@ -112,10 +118,11 @@ class _TopStylePageState extends State<TopStylePage> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                           onPressed: selectCount >= 3 ? () {
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (BuildContext context) {
-                              return const LowerStylePage();
-                            }));
+                            Api().imageSearchForNew("image/search/new", url[0], url[1], url[2], userController.userID);
+                            // Navigator.pushReplacement(context,
+                            //     MaterialPageRoute(builder: (BuildContext context) {
+                            //   return const LowerStylePage();
+                            // }));
                           }: null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromRGBO(102, 54, 53, 1),

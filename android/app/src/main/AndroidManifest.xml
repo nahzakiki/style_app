@@ -37,7 +37,9 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-       <activity android:name=".SchemeActivity" >
+       <activity
+           android:name="com.example.style_app.SchemeActivity"
+           android:exported="true">
            <intent-filter>
                <action android:name="android.intent.action.VIEW" />
                <category android:name="android.intent.category.DEFAULT" />

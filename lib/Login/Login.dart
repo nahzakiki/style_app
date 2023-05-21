@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:style_app/IndexPreview.dart';
 import 'package:style_app/Login/TermOfUse.dart';
 import 'package:style_app/controller/user_state.dart';
+import 'package:style_app/home/HomePage.dart';
 import 'package:style_app/services/api.dart';
 import 'package:style_app/services/google_sign_in.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
@@ -68,6 +69,11 @@ class _LoginState extends State<Login> {
             MaterialPageRoute(builder: (BuildContext context) {
           return const TermsofUse();
         }));
+      }else if(res['message'] == "already"){
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+              return const IndexPreview();
+            }));
       }
     } on PlatformException catch (e) {
       print(e);
