@@ -3,11 +3,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:style_app/camera/PreviewPage.dart';
 import 'package:style_app/home/HomePage.dart';
 import 'package:style_app/home/ProfilePage.dart';
+
+import 'controller/user_state.dart';
 
 class IndexPreview extends StatefulWidget {
   const IndexPreview({Key? key}) : super(key: key);
@@ -18,6 +21,7 @@ class IndexPreview extends StatefulWidget {
 
 class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
   int currentTab = 0;
+  final userController = Get.put(UserController());
 
   List<Widget> screen = [
     HomePage(),

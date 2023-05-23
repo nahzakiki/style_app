@@ -2,8 +2,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:style_app/services/api.dart';
+
+import '../controller/user_state.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,6 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final userController = Get.put(UserController());
   final List<String> StylesList = [
     'For You',
     'Minimal Style',
@@ -44,7 +48,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<List> _getClothes() async {
     String style = pageList[_activeIndex].split(" ")[0];
-    return await Api().getClothes('clothes', style.toLowerCase());
+    return await Api().getClothes('clothes', style.toLowerCase(), userController.userID);
   }
 
   @override

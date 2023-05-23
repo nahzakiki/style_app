@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:style_app/models/clothesModel.dart';
 
 class Api {
-  static const BASE_URL = "https://a9dd-2001-fb1-18-a82f-40bb-2e59-4129-21ea.ap.ngrok.io";
+  static const BASE_URL = "https://a1d2-2001-fb1-19-bb79-7428-1551-2fdb-b795.ap.ngrok.io";
   Future<dynamic> submit(String endpoint, XFile image) async{
     File imageFile = File(image.path);
     print(image.path);
@@ -32,9 +32,9 @@ class Api {
     }
   }
 
-  Future<dynamic> getClothes(String endpoint, String style) async{
+  Future<dynamic> getClothes(String endpoint, String style, String uid) async{
     var url = Uri.parse('$BASE_URL/$endpoint?style=$style');
-    final response = await http.get(url);
+    final response = await http.get(url,headers: {'Content-Type': 'application/json', "x-uid": uid});
 
     if (response.statusCode == 200) {
       // แปลง text ที่มีรูปแบบเป็น JSON ไปเป็น Dart's data structure (List/Map)
@@ -95,7 +95,10 @@ class Api {
     }
   }
 
-  Future<String> imageSearchForNew(String endpoint, String top1, String top2, String top3, String uid) async{
+  Future<String> imageSearchForNew(
+  String endpoint, String top1, String top2, String top3,
+  String low1, String low2, String low3,
+      String shoe1, String shoe2, String shoe3, String uid) async{
     var request = http.MultipartRequest('POST', Uri.parse('${BASE_URL}/${endpoint}'));
     request.headers['x-uid'] = uid;
 
@@ -129,6 +132,72 @@ class Api {
       'top3',
       imageBytes,
       filename: 'top3.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+
+    response = await http.get(Uri.parse(low1));
+    imageBytes = response.bodyBytes;
+    imageLength = imageBytes.length;
+    imageMultipartFile = http.MultipartFile.fromBytes(
+      'low1',
+      imageBytes,
+      filename: 'low1.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+
+    response = await http.get(Uri.parse(low2));
+    imageBytes = response.bodyBytes;
+    imageLength = imageBytes.length;
+    imageMultipartFile = http.MultipartFile.fromBytes(
+      'low2',
+      imageBytes,
+      filename: 'low2.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+
+    response = await http.get(Uri.parse(low3));
+    imageBytes = response.bodyBytes;
+    imageLength = imageBytes.length;
+    imageMultipartFile = http.MultipartFile.fromBytes(
+      'low3',
+      imageBytes,
+      filename: 'low3.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+
+    response = await http.get(Uri.parse(shoe1));
+    imageBytes = response.bodyBytes;
+    imageLength = imageBytes.length;
+    imageMultipartFile = http.MultipartFile.fromBytes(
+      'shoe1',
+      imageBytes,
+      filename: 'shoe1.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+
+    response = await http.get(Uri.parse(shoe2));
+    imageBytes = response.bodyBytes;
+    imageLength = imageBytes.length;
+    imageMultipartFile = http.MultipartFile.fromBytes(
+      'shoe2',
+      imageBytes,
+      filename: 'shoe2.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+
+    response = await http.get(Uri.parse(shoe3));
+    imageBytes = response.bodyBytes;
+    imageLength = imageBytes.length;
+    imageMultipartFile = http.MultipartFile.fromBytes(
+      'shoe3',
+      imageBytes,
+      filename: 'shoe3.jpg',
     );
 
     request.files.add(imageMultipartFile);

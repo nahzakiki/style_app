@@ -118,11 +118,13 @@ class _TopStylePageState extends State<TopStylePage> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                           onPressed: selectCount >= 3 ? () {
-                            Api().imageSearchForNew("image/search/new", url[0], url[1], url[2], userController.userID);
-                            // Navigator.pushReplacement(context,
-                            //     MaterialPageRoute(builder: (BuildContext context) {
-                            //   return const LowerStylePage();
-                            // }));
+                            userController.top1 = url[0];
+                            userController.top2 = url[1];
+                            userController.top3 = url[2];
+                            Navigator.pushReplacement(context,
+                                 MaterialPageRoute(builder: (BuildContext context) {
+                               return const LowerStylePage();
+                             }));
                           }: null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromRGBO(102, 54, 53, 1),

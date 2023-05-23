@@ -47,12 +47,11 @@ class _BirthdaysState extends State<Birthdays> {
                       contentPadding: EdgeInsets.all(10),
                       border: InputBorder.none),
                   onChanged: (value) {
-                    if(_controller.text.length < 4) {
-
+                    if(_controller.text.length <= 4) {
                       userController.setBirthDate(_controller.text);
                     }else{
                       setState(() {
-                        _controller.text = _controller.text.substring(0,4);
+                        _controller.text = _controller.text.substring(0,5);
                       });
                     }
                   },

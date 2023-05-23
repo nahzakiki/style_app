@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 import 'package:style_app/choose_style/ShoseStylePage.dart';
+import 'package:style_app/controller/user_state.dart';
+import 'package:style_app/services/api.dart';
 
 class LowerStylePage extends StatefulWidget {
   const LowerStylePage({super.key});
@@ -13,6 +16,7 @@ class LowerStylePage extends StatefulWidget {
 
 class _LowerStylePageState extends State<LowerStylePage> {
   int activePage = 0;
+  final userController = Get.put(UserController());
   List<bool> selects = [
     false,
     false,
@@ -43,6 +47,7 @@ class _LowerStylePageState extends State<LowerStylePage> {
     "https://cdn.discordapp.com/attachments/743841976365088841/1105081323762237450/lower_street_972.jpg"
   ];
 
+  List<String> url = ["", "", ""];
   int selectCount = 0;
 
   @override
@@ -74,7 +79,8 @@ class _LowerStylePageState extends State<LowerStylePage> {
                             setState(() {
                               if (selectCount < 3) {
                                 selects[index] = !selects[index];
-      
+                                url[selectCount] = images[index];
+
                                 if (selects[index]) {
                                   selectCount++;
                                 }else{
@@ -111,6 +117,9 @@ class _LowerStylePageState extends State<LowerStylePage> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                           onPressed: selectCount >= 3 ? () {
+                            userController.low1 = url[0];
+                            userController.low2 = url[1];
+                            userController.low3 = url[2];
                             Navigator.pushReplacement(context,
                                 MaterialPageRoute(builder: (BuildContext context) {
                               return const ShoseStylePage();

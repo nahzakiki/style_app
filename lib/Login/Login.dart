@@ -70,6 +70,7 @@ class _LoginState extends State<Login> {
           return const TermsofUse();
         }));
       }else if(res['message'] == "already"){
+        userController.setUserID(userId);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
               return const IndexPreview();

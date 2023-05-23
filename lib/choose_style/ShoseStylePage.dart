@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 import 'package:style_app/choose_style/LoadingPage.dart';
+import 'package:style_app/controller/user_state.dart';
+import 'package:style_app/services/api.dart';
 
 class ShoseStylePage extends StatefulWidget {
   const ShoseStylePage({super.key});
@@ -13,6 +16,7 @@ class ShoseStylePage extends StatefulWidget {
 
 class _ShoseStylePageState extends State<ShoseStylePage> {
   int activePage = 0;
+  final userController = Get.put(UserController());
   List<bool> selects = [
     false,
     false,
@@ -43,6 +47,7 @@ class _ShoseStylePageState extends State<ShoseStylePage> {
     "https://cdn.discordapp.com/attachments/743841976365088841/1105082415082389555/shoe_vintage_605.jpg"
   ];
 
+  List<String> url = ["", "", ""];
   int selectCount = 0;
 
   @override
@@ -74,6 +79,7 @@ class _ShoseStylePageState extends State<ShoseStylePage> {
                             setState(() {
                               if (selectCount < 3) {
                                 selects[index] = !selects[index];
+                                url[selectCount] = images[index];
       
                                 if (selects[index]) {
                                   selectCount++;
@@ -111,6 +117,10 @@ class _ShoseStylePageState extends State<ShoseStylePage> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                           onPressed: selectCount >= 3 ? () {
+                            print(url[0]);
+                            userController.shoe1 = url[0];
+                            userController.shoe2 = url[1];
+                            userController.shoe3 = url[2];
                             Navigator.pushReplacement(context,
                                 MaterialPageRoute(builder: (BuildContext context) {
                               return const LoadingSelectPage();
