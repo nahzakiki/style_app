@@ -5,8 +5,8 @@ import 'package:style_app/IndexPreview.dart';
 import 'package:style_app/Login/TermOfUse.dart';
 import 'package:style_app/controller/user_state.dart';
 import 'package:style_app/home/HomePage.dart';
+import 'package:style_app/home/ProfilePage.dart';
 import 'package:style_app/services/api.dart';
-import 'package:style_app/services/google_sign_in.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
@@ -63,6 +63,9 @@ class _LoginState extends State<Login> {
       print("data> " + email!);
 
       var res = await Api().lineLogin("login", displayname, statusmessage, imgUrl, userId);
+      userController.setStatust(statusmessage);
+      userController.setDisplayName(displayname);
+      userController.setImageUrl(imgUrl);
       if(res['message'] == "success") {
         userController.setUserID(userId);
         Navigator.pushReplacement(context,
@@ -150,9 +153,5 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
-  }
-
-  Future<GoogleSignInAccount?> _googleSignIn() async {
-    return await GoogleSignInApi.login();
   }
 }

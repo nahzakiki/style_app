@@ -3,10 +3,15 @@ import 'dart:io';
 import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_line_sdk/flutter_line_sdk.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:style_app/Login/Login.dart';
+import 'package:style_app/controller/user_state.dart';
 import 'package:style_app/home/AbotNG.dart';
 import 'package:style_app/home/EditProfile.dart';
+import 'package:style_app/services/api.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -16,6 +21,23 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final userController = Get.put(UserController());
+
+  @override
+  void initState() {
+    print(userController.image);
+    super.initState();
+  }
+
+  void logout() async {
+    try {
+      await LineSDK.instance.logout();
+      Navigator.pop(context);
+    } on PlatformException catch (e) {
+      print(e.message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -25,29 +47,18 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.only(top: 60),
             child: Stack(
               children: [
-                AvatarView(
-                  radius: 65,
-                  borderWidth: 6,
-                  borderColor: Color.fromRGBO(219, 221, 243, 1.0),
-                  avatarType: AvatarType.CIRCLE,
-                  //backgroundColor:  Color.fromRGBO(219, 221, 243, 1.0),
-                  imagePath: "assets/images/S__5963780.jpg",
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: GestureDetector(
-                    onTap: () {
-                      _showModalSheet();
-                    },
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Color.fromRGBO(219, 221, 243, 1.0)),
-                      child: Icon(Icons.edit_rounded,
-                          color: Color.fromRGBO(35, 31, 32, 0.6)),
+                Container(
+                  width: 130,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.fromRGBO(219, 221, 243, 1.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(65.0),
+                      child: Image.network(userController.image),
                     ),
                   ),
                 ),
@@ -57,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: Text(
-              "Crimson bababa",
+              userController.displayName,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
             ),
           ),
@@ -69,10 +80,24 @@ class _ProfilePageState extends State<ProfilePage> {
               borderRadius: BorderRadius.circular(20.0),
               color: Color.fromRGBO(219, 221, 243, 1.0),
             ),
-            child: Center(
-                child: Text('My Blog',
-                    style: TextStyle(
-                        fontSize: 14, color: Color.fromRGBO(0, 0, 0, 0.6)))),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: Text('My Blog',
+                      style: TextStyle(
+                          fontSize: 14, color: Color.fromRGBO(0, 0, 0, 0.6))),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: Text(
+                    userController.status,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 30.0),
@@ -131,7 +156,9 @@ class _ProfilePageState extends State<ProfilePage> {
           Padding(
             padding: const EdgeInsets.only(top: 70.0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                logout();
+              },
               child: const Text(
                 "Log out",
                 style: TextStyle(color: Colors.white, fontSize: 14),
@@ -144,7 +171,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-
     );
   }
 

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:style_app/models/clothesModel.dart';
 
 class Api {
-  static const BASE_URL = "https://a1d2-2001-fb1-19-bb79-7428-1551-2fdb-b795.ap.ngrok.io";
+  static const BASE_URL = "https://43c1-2001-fb1-19-e0c3-7cdd-acbf-af17-f962.ap.ngrok.io";
   Future<dynamic> submit(String endpoint, XFile image) async{
     File imageFile = File(image.path);
     print(image.path);

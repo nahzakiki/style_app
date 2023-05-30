@@ -1,6 +1,8 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:style_app/IndexPreview.dart';
+import 'package:style_app/controller/user_state.dart';
 import 'package:style_app/home/ProfilePage.dart';
 
 class EditProfile extends StatefulWidget {
@@ -13,11 +15,13 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final List<String> genderItems = ['Male', 'Female', 'Not Gender'];
   String? selectedGender;
+  final userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
 
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom !=0;
+    String hintName = userController.displayName;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromRGBO(249, 241, 240, 1.0),
@@ -32,7 +36,6 @@ class _EditProfileState extends State<EditProfile> {
                 style: TextStyle(
                   fontSize: 30,
                   color: Colors.black,
-                  //fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -60,6 +63,9 @@ class _EditProfileState extends State<EditProfile> {
                       color: Color.fromRGBO(254, 254, 254, 0.65),
                       style: BorderStyle.solid)),
               child: TextFormField(
+                maxLength: 300,
+                maxLines: 5,
+                minLines: 1,
                 style: TextStyle(
                     fontSize: 14,
                     fontFamily:
@@ -96,7 +102,7 @@ class _EditProfileState extends State<EditProfile> {
                       style: BorderStyle.solid)),
               child: TextFormField(
                 decoration: const InputDecoration(
-                    hintText: 'Crimson',
+                    hintText: 'Enter New Name',
                     contentPadding: EdgeInsets.all(10),
                     border: InputBorder.none),
                 onChanged: (value) {},
@@ -214,7 +220,7 @@ class _EditProfileState extends State<EditProfile> {
                               iconSize: 30),
                           dropdownStyleData: DropdownStyleData(
                             padding: null,
-                            offset: const Offset(0,28),
+                            offset: const Offset(0,-5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                             ),

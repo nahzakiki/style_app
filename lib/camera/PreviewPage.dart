@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:get/get.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -12,6 +14,8 @@ import 'package:style_app/services/api.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
 
+import '../controller/user_state.dart';
+
 class PreviewPage extends StatefulWidget {
   final XFile image;
   const PreviewPage({Key? key, required this.image}) : super(key: key);
@@ -21,6 +25,7 @@ class PreviewPage extends StatefulWidget {
 }
 
 class _PreviewPageState extends State<PreviewPage> {
+  final userController = Get.put(UserController());
   late XFile image;
   late StyleModel resultMap;
   String albumName = 'Media';
@@ -36,6 +41,17 @@ class _PreviewPageState extends State<PreviewPage> {
     "sweet": "Sweeet Style",
     "minimal": "Minimal Style",
   };
+
+  String dropdownValue = '';
+  String? _selectedOption;
+  List<String> _options = [
+    'Minimal Style',
+    'Vintage Style',
+    'Sweet Style',
+    'Casual Style',
+    'Sexy Style',
+    'Street Style'
+  ];
 
   void fetchResult() async {
     setState(() {
@@ -245,16 +261,17 @@ class _PreviewPageState extends State<PreviewPage> {
                                             children: [
                                               Positioned(
                                                   child: Container(
-                                                      width: 60,
-                                                      height: 7,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.circular(5),
-                                                        color: Colors.black12,
+                                                width: 60,
+                                                height: 7,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  color: Colors.black12,
                                                 ),
                                               )),
                                               Padding(
-                                                padding: const EdgeInsets.only(top: 8.0),
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0),
                                                 child: Column(
                                                     mainAxisSize:
                                                         MainAxisSize.min,
@@ -266,15 +283,17 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                 FontWeight.bold,
                                                           )),
                                                       Card(
-                                                        color:
-                                                            const Color.fromRGBO(
-                                                                237, 192, 192, 1),
+                                                        color: const Color
+                                                                .fromRGBO(
+                                                            237, 192, 192, 1),
                                                         shape: const RoundedRectangleBorder(
                                                             borderRadius: BorderRadius.only(
                                                                 topLeft: Radius
-                                                                    .circular(10),
+                                                                    .circular(
+                                                                        10),
                                                                 topRight: Radius
-                                                                    .circular(10),
+                                                                    .circular(
+                                                                        10),
                                                                 bottomRight:
                                                                     Radius
                                                                         .circular(
@@ -302,7 +321,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                         resultMap
                                                                             .top!
                                                                             .base64!),
-                                                                    width: 100.0,
+                                                                    width:
+                                                                        100.0,
                                                                   )),
                                                               const SizedBox(
                                                                 width: 10.0,
@@ -310,7 +330,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                        .all(8.0),
+                                                                            .all(
+                                                                        8.0),
                                                                 child: Column(
                                                                   mainAxisAlignment:
                                                                       MainAxisAlignment
@@ -331,25 +352,46 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                           onTap:
                                                                               (selected) {},
                                                                           size:
-                                                                              30,
+                                                                              25,
                                                                           uncheckedColor:
                                                                               Colors.red,
                                                                           uncheckedWidget:
                                                                               Icon(
-                                                                            Icons
-                                                                                .close,
+                                                                            Icons.close,
                                                                             color:
                                                                                 Colors.white,
                                                                             size:
-                                                                                15,
+                                                                                10,
                                                                           ),
                                                                         ),
                                                                         SizedBox(
                                                                           width:
-                                                                              5,
+                                                                              20,
                                                                         ),
-                                                                        Text(
-                                                                            "Select other style")
+                                                                        DropdownButtonHideUnderline(
+                                                                          child: DropdownButton<String>(
+                                                                            hint: Text(
+                                                                              'Select this style',
+                                                                              style: TextStyle(fontSize: 12),
+                                                                            ),
+                                                                            items: _options.map((String option) {
+                                                                              return DropdownMenuItem<String>(
+                                                                                value: option,
+                                                                                child: Text(
+                                                                                  option,
+                                                                                  style: TextStyle(fontSize: 12),
+                                                                                ),
+                                                                              );
+                                                                            }).toList(),
+                                                                            onChanged: (option) {
+                                                                                setState(() {
+                                                                                  _selectedOption = option;
+                                                                                });
+                                                                                print(_selectedOption);
+                                                                            },
+                                                                            //value: _selectedOption,
+                                                                          ),
+                                                                        ),
                                                                       ],
                                                                     ),
                                                                   ],
@@ -360,15 +402,17 @@ class _PreviewPageState extends State<PreviewPage> {
                                                         ),
                                                       ),
                                                       Card(
-                                                        color:
-                                                            const Color.fromRGBO(
-                                                                237, 192, 192, 1),
+                                                        color: const Color
+                                                                .fromRGBO(
+                                                            237, 192, 192, 1),
                                                         shape: const RoundedRectangleBorder(
                                                             borderRadius: BorderRadius.only(
                                                                 topLeft: Radius
-                                                                    .circular(10),
+                                                                    .circular(
+                                                                        10),
                                                                 topRight: Radius
-                                                                    .circular(10),
+                                                                    .circular(
+                                                                        10),
                                                                 bottomRight:
                                                                     Radius
                                                                         .circular(
@@ -396,7 +440,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                         resultMap
                                                                             .low!
                                                                             .base64!),
-                                                                    width: 100.0,
+                                                                    width:
+                                                                        100.0,
                                                                   )),
                                                               const SizedBox(
                                                                 width: 10.0,
@@ -404,7 +449,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                        .all(8.0),
+                                                                            .all(
+                                                                        8.0),
                                                                 child: Column(
                                                                   mainAxisAlignment:
                                                                       MainAxisAlignment
@@ -430,8 +476,7 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                               Colors.red,
                                                                           uncheckedWidget:
                                                                               Icon(
-                                                                            Icons
-                                                                                .close,
+                                                                            Icons.close,
                                                                             color:
                                                                                 Colors.white,
                                                                             size:
@@ -440,10 +485,30 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                         ),
                                                                         SizedBox(
                                                                           width:
-                                                                              5,
+                                                                              20,
                                                                         ),
-                                                                        Text(
-                                                                            "Select this style")
+                                                                        DropdownButtonHideUnderline(
+                                                                          child: DropdownButton<String>(
+                                                                            hint: Text(
+                                                                              'Select this style',
+                                                                              style: TextStyle(fontSize: 12),
+                                                                            ),
+                                                                            items: _options.map((String option) {
+                                                                              return DropdownMenuItem<String>(
+                                                                                value: option,
+                                                                                child: Text(
+                                                                                  option,
+                                                                                  style: TextStyle(fontSize: 12),
+                                                                                ),
+                                                                              );
+                                                                            }).toList(),
+                                                                            onChanged: (String? newValue) {
+                                                                              setState(() {
+                                                                                _selectedOption = newValue!;
+                                                                              });
+                                                                            },
+                                                                          ),
+                                                                        ),
                                                                       ],
                                                                     ),
                                                                   ],
@@ -454,15 +519,17 @@ class _PreviewPageState extends State<PreviewPage> {
                                                         ),
                                                       ),
                                                       Card(
-                                                        color:
-                                                            const Color.fromRGBO(
-                                                                237, 192, 192, 1),
+                                                        color: const Color
+                                                                .fromRGBO(
+                                                            237, 192, 192, 1),
                                                         shape: const RoundedRectangleBorder(
                                                             borderRadius: BorderRadius.only(
                                                                 topLeft: Radius
-                                                                    .circular(10),
+                                                                    .circular(
+                                                                        10),
                                                                 topRight: Radius
-                                                                    .circular(10),
+                                                                    .circular(
+                                                                        10),
                                                                 bottomRight:
                                                                     Radius
                                                                         .circular(
@@ -490,7 +557,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                         resultMap
                                                                             .shoe!
                                                                             .base64!),
-                                                                    width: 100.0,
+                                                                    width:
+                                                                        100.0,
                                                                   )),
                                                               const SizedBox(
                                                                 width: 10.0,
@@ -498,7 +566,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                        .all(8.0),
+                                                                            .all(
+                                                                        8.0),
                                                                 child: Column(
                                                                   mainAxisAlignment:
                                                                       MainAxisAlignment
@@ -524,8 +593,7 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                               Colors.red,
                                                                           uncheckedWidget:
                                                                               Icon(
-                                                                            Icons
-                                                                                .close,
+                                                                            Icons.close,
                                                                             color:
                                                                                 Colors.white,
                                                                             size:
@@ -534,10 +602,30 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                         ),
                                                                         SizedBox(
                                                                           width:
-                                                                              5,
+                                                                              20,
                                                                         ),
-                                                                        Text(
-                                                                            "Select this style")
+                                                                        DropdownButtonHideUnderline(
+                                                                          child: DropdownButton<String>(
+                                                                            hint: Text(
+                                                                              'Select this style',
+                                                                              style: TextStyle(fontSize: 12),
+                                                                            ),
+                                                                            items: _options.map((String option) {
+                                                                              return DropdownMenuItem<String>(
+                                                                                value: option,
+                                                                                child: Text(
+                                                                                  option,
+                                                                                  style: TextStyle(fontSize: 12),
+                                                                                ),
+                                                                              );
+                                                                            }).toList(),
+                                                                            onChanged: (String? newValue) {
+                                                                              setState(() {
+                                                                                _selectedOption = newValue!;
+                                                                              });
+                                                                            },
+                                                                          ),
+                                                                        ),
                                                                       ],
                                                                     ),
                                                                   ],
@@ -560,8 +648,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                             .styleFrom(
                                                                 shape:
                                                                     StadiumBorder(),
-                                                                primary:
-                                                                    Colors.brown),
+                                                                primary: Colors
+                                                                    .brown),
                                                       ),
                                                     ]),
                                               ),

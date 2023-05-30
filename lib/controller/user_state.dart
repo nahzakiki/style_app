@@ -12,6 +12,9 @@ class UserController extends GetxController {
   var shoe1 = "".obs();
   var shoe2 = "".obs();
   var shoe3 = "".obs();
+  var status = "".obs();
+  var displayName = "".obs();
+  var image = "".obs();
 
   void setUserID(String uid){
     userID = uid;
@@ -19,5 +22,17 @@ class UserController extends GetxController {
 
   void setBirthDate(String bd){
     birthDate = bd;
+  }
+
+  void setStatust(String st){
+    status = st;
+  }
+
+  void setDisplayName(String name){
+    displayName = name;
+  }
+
+  void setImageUrl(String img){
+    image = img;
   }
 }
