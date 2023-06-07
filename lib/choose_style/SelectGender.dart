@@ -89,6 +89,7 @@ class _SelectGenderState extends State<SelectGender> {
                   },
                   onChanged: (value) {
                     selectedGender = value!;
+                    userController.setGender(selectedGender);
                   },
                   buttonStyleData: const ButtonStyleData(
                     padding: EdgeInsets.only(left: 20, right: 20),

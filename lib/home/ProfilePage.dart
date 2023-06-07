@@ -32,7 +32,11 @@ class _ProfilePageState extends State<ProfilePage> {
   void logout() async {
     try {
       await LineSDK.instance.logout();
-      Navigator.pop(context);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Login()),
+            (Route<dynamic> route) => false,
+      );
     } on PlatformException catch (e) {
       print(e.message);
     }

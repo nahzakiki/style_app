@@ -5,6 +5,8 @@ import 'package:style_app/IndexPreview.dart';
 import 'package:style_app/controller/user_state.dart';
 import 'package:style_app/home/ProfilePage.dart';
 
+import '../services/api.dart';
+
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
 
@@ -14,14 +16,16 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final List<String> genderItems = ['Male', 'Female', 'Not Gender'];
-  String? selectedGender;
+  String selectedGender ="";
   final userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
 
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom !=0;
-    String hintName = userController.displayName;
+    TextEditingController _controllerName = TextEditingController();
+    TextEditingController _controllerStatus = TextEditingController();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromRGBO(249, 241, 240, 1.0),
@@ -63,10 +67,11 @@ class _EditProfileState extends State<EditProfile> {
                       color: Color.fromRGBO(254, 254, 254, 0.65),
                       style: BorderStyle.solid)),
               child: TextFormField(
+                controller: _controllerStatus,
                 maxLength: 300,
                 maxLines: 5,
                 minLines: 1,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 14,
                     fontFamily:
                         'assets/fonts/Inter-VariableFont_slnt,wght.ttf'),
@@ -74,7 +79,9 @@ class _EditProfileState extends State<EditProfile> {
                     hintText: 'ความรู้สึกวันนี้',
                     contentPadding: EdgeInsets.all(15),
                     border: InputBorder.none),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  userController.setStatust(_controllerStatus.text);
+                },
               ),
             ),
             Padding(
@@ -101,11 +108,14 @@ class _EditProfileState extends State<EditProfile> {
                       color: Color.fromRGBO(254, 254, 254, 0.65),
                       style: BorderStyle.solid)),
               child: TextFormField(
+                controller: _controllerName,
                 decoration: const InputDecoration(
                     hintText: 'Enter New Name',
                     contentPadding: EdgeInsets.all(10),
                     border: InputBorder.none),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  userController.setDisplayName(_controllerName.text);
+                },
               ),
             ),
             Row(
@@ -205,7 +215,9 @@ class _EditProfileState extends State<EditProfile> {
                             }
                             return null;
                           },
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            selectedGender = value!;
+                          },
                           onSaved: (value) {
                             selectedGender = value.toString();
                           },
@@ -238,7 +250,15 @@ class _EditProfileState extends State<EditProfile> {
                 width: 100,
                 height: 40,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    var res = await Api().EditUserInfo("user", userController.status, userController.displayName, selectedGender, userController.userID);
+                    if(res['message'] == "success") {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                            return  IndexPreview();
+                          }));
+                    }
+                  },
                   child: Text(
                     'Save',
                     style: TextStyle(

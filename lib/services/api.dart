@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:style_app/models/clothesModel.dart';
 
 class Api {
-  static const BASE_URL = "https://7bc4-2001-fb1-18-86a-8d46-1072-648d-a922.ap.ngrok.io";
+  static const BASE_URL = "https://b017-2001-fb1-18-86a-a0d9-1649-807f-f5f4.ap.ngrok.io";
   Future<dynamic> submit(String endpoint, XFile image) async{
     File imageFile = File(image.path);
     print(image.path);
@@ -77,6 +77,27 @@ class Api {
   Future<Map<String, dynamic>> updateUserInfo(String endpoint, String bd, String gender, String uid) async{
     var url = Uri.parse('$BASE_URL/$endpoint');
     var body = {"birth_date": bd, "gender": gender, "user_id": uid, "term_of_use": true};
+
+    final response = await http.put(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(body),
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonBody = json.decode(response.body);
+      print('RESPONSE BODY: $jsonBody');
+
+      return jsonBody;
+
+    } else {
+      throw 'Server connection failed!';
+    }
+  }
+
+  Future<Map<String, dynamic>> EditUserInfo(String endpoint, String status, String name, String gender, String uid) async{
+    var url = Uri.parse('$BASE_URL/$endpoint');
+    var body = {"status_msg": status, "display_name":name ,"gender": gender, "user_id": uid};
 
     final response = await http.put(
       url,

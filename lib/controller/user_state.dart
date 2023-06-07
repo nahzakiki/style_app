@@ -15,6 +15,7 @@ class UserController extends GetxController {
   var status = "".obs();
   var displayName = "".obs();
   var image = "".obs();
+  var gender = "".obs;
 
   void setUserID(String uid){
     userID = uid;
@@ -34,5 +35,9 @@ class UserController extends GetxController {
 
   void setImageUrl(String img){
     image = img;
+  }
+
+  void setGender(String gender){
+    gender = gender;
   }
 }
