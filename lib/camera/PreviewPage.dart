@@ -42,8 +42,8 @@ class _PreviewPageState extends State<PreviewPage> {
     "minimal": "Minimal Style",
   };
 
-  String dropdownValue = '';
-  String? _selectedOption;
+
+
   List<String> _options = [
     'Minimal Style',
     'Vintage Style',
@@ -52,6 +52,13 @@ class _PreviewPageState extends State<PreviewPage> {
     'Sexy Style',
     'Street Style'
   ];
+
+  String? _selectedTop;
+  String? _selectedLow;
+  String? _selectedShoe;
+  bool? _enableTop = false;
+  bool? _enableLow = false;
+  bool? _enableShoe = false;
 
   void fetchResult() async {
     setState(() {
@@ -247,417 +254,424 @@ class _PreviewPageState extends State<PreviewPage> {
                                       topRight: Radius.circular(20.0))),
                               context: context,
                               builder: (context) {
-                                return DraggableScrollableSheet(
-                                    expand: false,
-                                    builder: (context, scrollController) {
-                                      return SingleChildScrollView(
-                                        controller: scrollController,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Stack(
-                                            alignment:
-                                                AlignmentDirectional.topCenter,
-                                            clipBehavior: Clip.none,
-                                            children: [
-                                              Positioned(
-                                                  child: Container(
-                                                width: 60,
-                                                height: 7,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  color: Colors.black12,
-                                                ),
-                                              )),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
-                                                child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Text('Detail',
-                                                          style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          )),
-                                                      Card(
-                                                        color: const Color
-                                                                .fromRGBO(
-                                                            237, 192, 192, 1),
-                                                        shape: const RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                bottomRight:
-                                                                    Radius
+                                return StatefulBuilder(
+                                  builder: (BuildContext context, StateSetter setState) {
+                                    return DraggableScrollableSheet(
+                                        expand: false,
+                                        builder: (context, scrollController) {
+                                          return SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Stack(
+                                                alignment:
+                                                    AlignmentDirectional.topCenter,
+                                                clipBehavior: Clip.none,
+                                                children: [
+                                                  Positioned(
+                                                      child: Container(
+                                                    width: 60,
+                                                    height: 7,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(5),
+                                                      color: Colors.black12,
+                                                    ),
+                                                  )),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        top: 8.0),
+                                                    child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Text('Detail',
+                                                              style: TextStyle(
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight.bold,
+                                                              )),
+                                                          Card(
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                237, 192, 192, 1),
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
                                                                         .circular(
-                                                                            10),
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        10))),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                  child: Image
-                                                                      .memory(
-                                                                    base64Decode(
-                                                                        resultMap
-                                                                            .top!
-                                                                            .base64!),
-                                                                    width:
-                                                                        100.0,
-                                                                  )),
-                                                              const SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        8.0),
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(styleMap[
-                                                                        resultMap
-                                                                            .top
-                                                                            ?.className]!),
-                                                                    Text(
-                                                                        "Confidence: ${(resultMap.top!.confidence! * 100).toStringAsFixed(2)}%"),
-                                                                    Row(
+                                                                            10.0)),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                                  10.0),
+                                                                      child: Image
+                                                                          .memory(
+                                                                        base64Decode(
+                                                                            resultMap
+                                                                                .top!
+                                                                                .base64!),
+                                                                        width:
+                                                                            100.0,
+                                                                      )),
+                                                                  const SizedBox(
+                                                                    width: 10.0,
+                                                                  ),
+                                                                  Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                                .all(
+                                                                            8.0),
+                                                                    child: Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
-                                                                        RoundCheckBox(
-                                                                          onTap:
-                                                                              (selected) {},
-                                                                          size:
-                                                                              25,
-                                                                          uncheckedColor:
-                                                                              Colors.red,
-                                                                          uncheckedWidget:
-                                                                              Icon(
-                                                                            Icons.close,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            size:
-                                                                                10,
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(
-                                                                          width:
-                                                                              20,
-                                                                        ),
-                                                                        DropdownButtonHideUnderline(
-                                                                          child: DropdownButton<String>(
-                                                                            hint: Text(
-                                                                              'Select this style',
-                                                                              style: TextStyle(fontSize: 12),
-                                                                            ),
-                                                                            items: _options.map((String option) {
-                                                                              return DropdownMenuItem<String>(
-                                                                                value: option,
-                                                                                child: Text(
-                                                                                  option,
-                                                                                  style: TextStyle(fontSize: 12),
-                                                                                ),
-                                                                              );
-                                                                            }).toList(),
-                                                                            onChanged: (option) {
+                                                                        Text(styleMap[
+                                                                            resultMap
+                                                                                .top
+                                                                                ?.className]!),
+                                                                        Text(
+                                                                            "Confidence: ${(resultMap.top!.confidence! * 100).toStringAsFixed(2)}%"),
+                                                                        Row(
+                                                                          children: [
+                                                                            Checkbox(
+                                                                              checkColor:
+                                                                                  Colors.white,
+                                                                              value:
+                                                                                  _enableTop,
+                                                                              onChanged:
+                                                                                  (bool? value) {
                                                                                 setState(() {
-                                                                                  _selectedOption = option;
+                                                                                  print(_enableTop);
+                                                                                  if (_enableTop == true) {
+                                                                                    _enableTop = false;
+                                                                                  } else {
+                                                                                    _enableTop = true;
+                                                                                  }
                                                                                 });
-                                                                                print(_selectedOption);
-                                                                            },
-                                                                            //value: _selectedOption,
-                                                                          ),
+                                                                              },
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width:
+                                                                                  20,
+                                                                            ),
+                                                                            DropdownButtonHideUnderline(
+                                                                              child:
+                                                                                  DropdownButton<String>(
+                                                                                    value: _selectedTop,
+                                                                                    hint:
+                                                                                        Text(
+                                                                                      "Select this style.",
+                                                                                      style: TextStyle(fontSize: 12),
+                                                                                    ),
+                                                                                    items:
+                                                                                        _options.map((String option) {
+                                                                                      return DropdownMenuItem<String>(
+                                                                                        value: option,
+                                                                                        child: Text(
+                                                                                          option,
+                                                                                          style: TextStyle(fontSize: 12),
+                                                                                        ),
+                                                                                      );
+                                                                                    }).toList(),
+                                                                                    onChanged: !_enableTop! ? null :(String? newValue) {
+                                                                                      setState(() {
+                                                                                        _selectedTop = newValue!;
+                                                                                      });
+                                                                                    },
+                                                                              ),
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      Card(
-                                                        color: const Color
-                                                                .fromRGBO(
-                                                            237, 192, 192, 1),
-                                                        shape: const RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                bottomRight:
-                                                                    Radius
+                                                          Card(
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                237, 192, 192, 1),
+                                                            shape: const RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.only(
+                                                                    topLeft: Radius
                                                                         .circular(
                                                                             10),
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        10))),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                  child: Image
-                                                                      .memory(
-                                                                    base64Decode(
-                                                                        resultMap
-                                                                            .low!
-                                                                            .base64!),
-                                                                    width:
-                                                                        100.0,
-                                                                  )),
-                                                              const SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        8.0),
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(styleMap[
-                                                                        resultMap
-                                                                            .low
-                                                                            ?.className]!),
-                                                                    Text(
-                                                                        "Confidence: ${(resultMap.low!.confidence! * 100).toStringAsFixed(2)}%"),
-                                                                    Row(
-                                                                      children: [
-                                                                        RoundCheckBox(
-                                                                          onTap:
-                                                                              (selected) {},
-                                                                          size:
-                                                                              30,
-                                                                          uncheckedColor:
-                                                                              Colors.red,
-                                                                          uncheckedWidget:
-                                                                              Icon(
-                                                                            Icons.close,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            size:
-                                                                                15,
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(
-                                                                          width:
-                                                                              20,
-                                                                        ),
-                                                                        DropdownButtonHideUnderline(
-                                                                          child: DropdownButton<String>(
-                                                                            hint: Text(
-                                                                              'Select this style',
-                                                                              style: TextStyle(fontSize: 12),
-                                                                            ),
-                                                                            items: _options.map((String option) {
-                                                                              return DropdownMenuItem<String>(
-                                                                                value: option,
-                                                                                child: Text(
-                                                                                  option,
-                                                                                  style: TextStyle(fontSize: 12),
-                                                                                ),
-                                                                              );
-                                                                            }).toList(),
-                                                                            onChanged: (String? newValue) {
-                                                                              setState(() {
-                                                                                _selectedOption = newValue!;
-                                                                              });
-                                                                            },
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Card(
-                                                        color: const Color
-                                                                .fromRGBO(
-                                                            237, 192, 192, 1),
-                                                        shape: const RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                bottomRight:
-                                                                    Radius
+                                                                    topRight: Radius
                                                                         .circular(
                                                                             10),
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        10))),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                  child: Image
-                                                                      .memory(
-                                                                    base64Decode(
-                                                                        resultMap
-                                                                            .shoe!
-                                                                            .base64!),
-                                                                    width:
-                                                                        100.0,
-                                                                  )),
-                                                              const SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        8.0),
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(styleMap[
-                                                                        resultMap
-                                                                            .shoe
-                                                                            ?.className]!),
-                                                                    Text(
-                                                                        "Confidence: ${(resultMap.shoe!.confidence! * 100).toStringAsFixed(2)}%"),
-                                                                    Row(
+                                                                    bottomRight:
+                                                                        Radius
+                                                                            .circular(
+                                                                                10),
+                                                                    bottomLeft: Radius
+                                                                        .circular(
+                                                                            10))),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                                  10),
+                                                                      child: Image
+                                                                          .memory(
+                                                                        base64Decode(
+                                                                            resultMap
+                                                                                .low!
+                                                                                .base64!),
+                                                                        width:
+                                                                            100.0,
+                                                                      )),
+                                                                  const SizedBox(
+                                                                    width: 10.0,
+                                                                  ),
+                                                                  Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                                .all(
+                                                                            8.0),
+                                                                    child: Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
-                                                                        RoundCheckBox(
-                                                                          onTap:
-                                                                              (selected) {},
-                                                                          size:
-                                                                              30,
-                                                                          uncheckedColor:
-                                                                              Colors.red,
-                                                                          uncheckedWidget:
-                                                                              Icon(
-                                                                            Icons.close,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            size:
-                                                                                15,
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(
-                                                                          width:
-                                                                              20,
-                                                                        ),
-                                                                        DropdownButtonHideUnderline(
-                                                                          child: DropdownButton<String>(
-                                                                            hint: Text(
-                                                                              'Select this style',
-                                                                              style: TextStyle(fontSize: 12),
+                                                                        Text(styleMap[
+                                                                            resultMap
+                                                                                .low
+                                                                                ?.className]!),
+                                                                        Text(
+                                                                            "Confidence: ${(resultMap.low!.confidence! * 100).toStringAsFixed(2)}%"),
+                                                                        Row(
+                                                                          children: [
+                                                                            Checkbox(
+                                                                              checkColor:
+                                                                              Colors.white,
+                                                                              value:
+                                                                              _enableLow,
+                                                                              onChanged:
+                                                                                  (bool? value) {
+                                                                                setState(() {
+                                                                                  print(_enableLow);
+                                                                                  if (_enableLow == true) {
+                                                                                    _enableLow = false;
+                                                                                  } else {
+                                                                                    _enableLow = true;
+                                                                                  }
+                                                                                });
+                                                                              },
                                                                             ),
-                                                                            items: _options.map((String option) {
-                                                                              return DropdownMenuItem<String>(
-                                                                                value: option,
-                                                                                child: Text(
-                                                                                  option,
+                                                                            SizedBox(
+                                                                              width:
+                                                                              20,
+                                                                            ),
+                                                                            DropdownButtonHideUnderline(
+                                                                              child:
+                                                                              DropdownButton<String>(
+                                                                                value: _selectedLow,
+                                                                                hint:
+                                                                                Text(
+                                                                                  "Select this style.",
                                                                                   style: TextStyle(fontSize: 12),
                                                                                 ),
-                                                                              );
-                                                                            }).toList(),
-                                                                            onChanged: (String? newValue) {
-                                                                              setState(() {
-                                                                                _selectedOption = newValue!;
-                                                                              });
-                                                                            },
-                                                                          ),
+                                                                                items:
+                                                                                _options.map((String option) {
+                                                                                  return DropdownMenuItem<String>(
+                                                                                    value: option,
+                                                                                    child: Text(
+                                                                                      option,
+                                                                                      style: TextStyle(fontSize: 12),
+                                                                                    ),
+                                                                                  );
+                                                                                }).toList(),
+                                                                                onChanged: !_enableLow! ? null :(String? newValue) {
+                                                                                  setState(() {
+                                                                                    _selectedLow = newValue!;
+                                                                                  });
+                                                                                },
+                                                                              ),
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      ElevatedButton(
-                                                        onPressed: () {},
-                                                        child: Text(
-                                                          'RECOMANDATIONS',
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'assets/fonts/Inter-VariableFont_slnt,wght.ttf'),
-                                                        ),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                shape:
-                                                                    StadiumBorder(),
-                                                                primary: Colors
-                                                                    .brown),
-                                                      ),
-                                                    ]),
+                                                          Card(
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                237, 192, 192, 1),
+                                                            shape: const RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.only(
+                                                                    topLeft: Radius
+                                                                        .circular(
+                                                                            10),
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                            10),
+                                                                    bottomRight:
+                                                                        Radius
+                                                                            .circular(
+                                                                                10),
+                                                                    bottomLeft: Radius
+                                                                        .circular(
+                                                                            10))),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                                  10),
+                                                                      child: Image
+                                                                          .memory(
+                                                                        base64Decode(
+                                                                            resultMap
+                                                                                .shoe!
+                                                                                .base64!),
+                                                                        width:
+                                                                            100.0,
+                                                                      )),
+                                                                  const SizedBox(
+                                                                    width: 10.0,
+                                                                  ),
+                                                                  Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                                .all(
+                                                                            8.0),
+                                                                    child: Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(styleMap[
+                                                                            resultMap
+                                                                                .shoe
+                                                                                ?.className]!),
+                                                                        Text(
+                                                                            "Confidence: ${(resultMap.shoe!.confidence! * 100).toStringAsFixed(2)}%"),
+                                                                        Row(
+                                                                          children: [
+                                                                            Checkbox(
+                                                                              checkColor:
+                                                                              Colors.white,
+                                                                              value:
+                                                                              _enableShoe,
+                                                                              onChanged:
+                                                                                  (bool? value) {
+                                                                                setState(() {
+                                                                                  print(_enableShoe);
+                                                                                  if (_enableShoe == true) {
+                                                                                    _enableShoe = false;
+                                                                                  } else {
+                                                                                    _enableShoe = true;
+                                                                                  }
+                                                                                });
+                                                                              },
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width:
+                                                                              20,
+                                                                            ),
+                                                                            DropdownButtonHideUnderline(
+                                                                              child:
+                                                                              DropdownButton<String>(
+                                                                                value: _selectedShoe,
+                                                                                hint:
+                                                                                Text(
+                                                                                  "Select this style.",
+                                                                                  style: TextStyle(fontSize: 12),
+                                                                                ),
+                                                                                items:
+                                                                                _options.map((String option) {
+                                                                                  return DropdownMenuItem<String>(
+                                                                                    value: option,
+                                                                                    child: Text(
+                                                                                      option,
+                                                                                      style: TextStyle(fontSize: 12),
+                                                                                    ),
+                                                                                  );
+                                                                                }).toList(),
+                                                                                onChanged: !_enableShoe! ? null :(String? newValue) {
+                                                                                  setState(() {
+                                                                                    _selectedShoe = newValue!;
+                                                                                  });
+                                                                                },
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          ElevatedButton(
+                                                            onPressed: () {},
+                                                            child: Text(
+                                                              'RECOMANDATIONS',
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontFamily:
+                                                                      'assets/fonts/Inter-VariableFont_slnt,wght.ttf'),
+                                                            ),
+                                                            style: ElevatedButton
+                                                                .styleFrom(
+                                                                    shape:
+                                                                        StadiumBorder(),
+                                                                    primary: Colors
+                                                                        .brown),
+                                                          ),
+                                                        ]),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    });
+                                            ),
+                                          );
+                                        });
+                                  }
+                                );
                               });
                         },
                         child: const Padding(
