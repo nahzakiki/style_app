@@ -63,17 +63,24 @@ class _LoginState extends State<Login> {
       print("data> " + email!);
 
       var res = await Api().lineLogin("login", displayname, statusmessage, imgUrl, userId);
-      userController.setStatust(statusmessage);
-      userController.setDisplayName(displayname);
-      userController.setImageUrl(imgUrl);
+
       if(res['message'] == "success") {
         userController.setUserID(userId);
+        userController.setStatust(statusmessage);
+        userController.setDisplayName(displayname);
+        userController.setImageUrl(imgUrl);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
           return const TermsofUse();
         }));
       }else if(res['message'] == "already"){
         userController.setUserID(userId);
+        var get = await Api().getUserInfo("getUser", userController.userID);
+        userController.setDisplayName(get['display_name']);
+        userController.setStatust(get['status_msg']);
+        userController.setGender(get['gender']);
+        userController.setBirthDate(get['birth_date']);
+        userController.setImageUrl(get['profile']);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
               return const IndexPreview();

@@ -32,6 +32,25 @@ class _ChooseStyleState extends State<ChooseStyle> {
     "https://cdn.discordapp.com/attachments/743841976365088841/1105036262169120849/123e5f11a9381ff3360ac2719d8d60cd.jpg",
     "https://cdn.discordapp.com/attachments/743841976365088841/1105036294851145758/d36932472264d786233beaa765d21d61.jpg"
   ];
+
+  List<String> street_images = [
+    "https://media.discordapp.net/attachments/743841976365088841/1105036495754100766/1c6126264b4091af5be92a8c6fd29bf2.jpg",
+    "https://media.discordapp.net/attachments/743841976365088841/1105036496060293180/61d7f15df834b1758a1fc2b20649d913.jpg",
+    "https://media.discordapp.net/attachments/743841976365088841/1105036496257437716/67eb7cf489eda57f7cd21dfb4ee6eae5.jpg"
+  ];
+
+  List<String> sexy_image = [
+    "https://media.discordapp.net/attachments/743841976365088841/1105051944877301802/1a283e829d566d5f85787e1938ecb761.jpg",
+    "https://cdn.discordapp.com/attachments/743841976365088841/1105051945149939803/12f8650e233aa634c9b6a871e8bf47f3.jpg",
+    "https://cdn.discordapp.com/attachments/743841976365088841/1105052166592401488/e5d9e991626901addfb35023d2a5b2ad.jpg"
+  ];
+
+  List<String> caual_image = [
+    "https://cdn.discordapp.com/attachments/743841976365088841/1105052166592401488/e5d9e991626901addfb35023d2a5b2ad.jpg",
+    "https://cdn.discordapp.com/attachments/743841976365088841/1105036769377927208/2f954639dff964ad6a967d46d85aa347.jpg",
+    "https://cdn.discordapp.com/attachments/743841976365088841/1105036816710643742/c888275b58a2134de91e5cccfca4a514.jpg"
+  ];
+
   String _part = "TOP";
 
   @override
@@ -50,9 +69,18 @@ class _ChooseStyleState extends State<ChooseStyle> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Vintage Style",
-                        style: TextStyle(fontSize: 18.0),
+                      Center(
+                        child: Container(
+                          width: 145,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Colors.white
+                          ),
+                          child: const Text(
+                            "     Vintage Style",
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -87,9 +115,18 @@ class _ChooseStyleState extends State<ChooseStyle> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Minimal Style",
-                        style: TextStyle(fontSize: 18.0),
+                      Center(
+                        child: Container(
+                          width: 145,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: Colors.white
+                          ),
+                          child: const Text(
+                            "     Minimal Style",
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -124,9 +161,18 @@ class _ChooseStyleState extends State<ChooseStyle> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Sweet Style",
-                        style: TextStyle(fontSize: 18.0),
+                      Center(
+                        child: Container(
+                          width: 130,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: Colors.white
+                          ),
+                          child: const Text(
+                            "     Sweet Style",
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -137,6 +183,144 @@ class _ChooseStyleState extends State<ChooseStyle> {
                               autoPlay: true,
                               aspectRatio: 0.8),
                           items: sweet_images
+                              .map(
+                                (e) => AspectRatio(
+                                  aspectRatio: 16 / 9, //aspect ratio for Image
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image(
+                                      image: NetworkImage(e),
+                                      fit: BoxFit.fill,
+                                      //fill type of image inside aspectRatio
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 130,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: Colors.white
+                          ),
+                          child: const Text(
+                            "     Street Style",
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                              enlargeCenterPage: true,
+                              enableInfiniteScroll: false,
+                              autoPlay: true,
+                              aspectRatio: 0.8),
+                          items: street_images
+                              .map(
+                                (e) => AspectRatio(
+                                  aspectRatio: 16 / 9, //aspect ratio for Image
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image(
+                                      image: NetworkImage(e),
+                                      fit: BoxFit.fill,
+                                      //fill type of image inside aspectRatio
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 120,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: Colors.white
+                          ),
+                          child: const Text(
+                            "     Sexy Style",
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                              enlargeCenterPage: true,
+                              enableInfiniteScroll: false,
+                              autoPlay: true,
+                              aspectRatio: 0.8),
+                          items: sexy_image
+                              .map(
+                                (e) => AspectRatio(
+                                  aspectRatio: 16 / 9, //aspect ratio for Image
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image(
+                                      image: NetworkImage(e),
+                                      fit: BoxFit.fill,
+                                      //fill type of image inside aspectRatio
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 135,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: Colors.white
+                          ),
+                          child: const Text(
+                            "     Casual Style",
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                              enlargeCenterPage: true,
+                              enableInfiniteScroll: false,
+                              autoPlay: true,
+                              aspectRatio: 0.8),
+                          items: caual_image
                               .map(
                                 (e) => AspectRatio(
                                   aspectRatio: 16 / 9, //aspect ratio for Image

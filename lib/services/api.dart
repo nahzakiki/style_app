@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:style_app/controller/user_state.dart';
 import 'package:style_app/models/clothesModel.dart';
 
 class Api {
-  static const BASE_URL = "https://048e-2001-fb1-18-86a-a0d9-1649-807f-f5f4.ap.ngrok.io";
+  static const BASE_URL = "https://a5e2-2001-fb1-18-86a-640d-212a-fabe-6905.ap.ngrok.io";
+  final userController = Get.put(UserController());
   Future<dynamic> submit(String endpoint, XFile image) async{
     File imageFile = File(image.path);
     print(image.path);
@@ -74,6 +77,21 @@ class Api {
     }
   }
 
+  Future<Map<String,dynamic>> getUserInfo(String endpoint, String userID) async {
+    var url = Uri.parse('$BASE_URL/$endpoint');
+
+    final response = await http.get(url,headers: {"x-uid": userID});
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonBody = json.decode(response.body);
+      print('bababa RESPONSE BODY: $jsonBody');
+      return jsonBody;
+
+    } else {
+      throw 'Server connection failed!';
+    }
+  }
+
   Future<Map<String, dynamic>> updateUserInfo(String endpoint, String bd, String gender, String uid) async{
     var url = Uri.parse('$BASE_URL/$endpoint');
     var body = {"birth_date": bd, "gender": gender, "user_id": uid, "term_of_use": true};
@@ -87,7 +105,8 @@ class Api {
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonBody = json.decode(response.body);
       print('RESPONSE BODY: $jsonBody');
-
+      userController.setGender(gender);
+      userController.setBirthDate(bd);
       return jsonBody;
 
     } else {
@@ -113,6 +132,64 @@ class Api {
 
     } else {
       throw 'Server connection failed!';
+    }
+  }
+
+  Future<String> imageSearchPredict(String endpoint, String top, String? topStyle,
+      String low, String? lowStyle, String shoe, String? shoeStyle, String uid) async {
+    var request = http.MultipartRequest('POST', Uri.parse('${BASE_URL}/${endpoint}'));
+    request.headers['x-uid'] = uid;
+
+  //เปลื่ยน byte ส่งไป
+    var imageBytes = base64Decode(top);
+    var imageStream = http.ByteStream.fromBytes(imageBytes);
+    var imageLength = imageBytes.length;
+    var imageMultipartFile = http.MultipartFile.fromBytes(
+      'top',
+      imageBytes,
+      filename: 'top.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+    request.fields['top_style'] = topStyle?.split(" ")[0].toLowerCase() ??  " ";
+
+    imageBytes = base64Decode(low);
+    imageLength = imageBytes.length;
+    imageMultipartFile = http.MultipartFile.fromBytes(
+      'low',
+      imageBytes,
+      filename: 'low.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+    request.fields['low_style'] = lowStyle?.split(" ")[0].toLowerCase() ??  " ";
+
+
+    imageBytes = base64Decode(shoe);
+    imageLength = imageBytes.length;
+    imageMultipartFile = http.MultipartFile.fromBytes(
+      'shoe',
+      imageBytes,
+      filename: 'shoe.jpg',
+    );
+
+    request.files.add(imageMultipartFile);
+    request.fields['shoe_style'] = shoeStyle?.split(" ")[0].toLowerCase() ??  " ";
+
+    try {
+      print("predict");
+      // Send the request and await for the response
+      var responses = await request.send();
+      if (responses.statusCode == 200) {
+        final String responseString = await responses.stream.bytesToString();
+        print(responseString);
+        return  responseString;
+      } else {
+        throw Exception('Server connection failed!'); // Use proper exception handling
+      }
+    } catch (e) {
+      print('Error: $e'); // Print error for debugging
+      throw Exception('Failed to upload image: $e'); // Provide meaningful error message
     }
   }
 

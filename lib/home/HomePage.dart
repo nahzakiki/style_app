@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.connectionState != ConnectionState.done) {
                     return LoadingAnimationWidget.fourRotatingDots(
                             color: Color.fromRGBO(222, 179, 173, 1.0),
-                            size: 40); //เปลื่ยน loader หา สวยมาเดี๋ยวรันโมโห
+                            size: 40);
                   }
 
                   if (snapshot.hasError) {

@@ -8,8 +8,8 @@ class Low {
 
   Low.fromJson(Map<String, dynamic> json) {
     className = json['class'];
-  confidence = double.parse(json['confidence']);
-  base64 = json['base64'];
+    confidence = double.parse(json['confidence']);
+    base64 = json['base64'];
   }
 
   Map<String, dynamic> toJson() {

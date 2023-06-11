@@ -16,15 +16,16 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final List<String> genderItems = ['Male', 'Female', 'Not Gender'];
-  String selectedGender ="";
   final userController = Get.put(UserController());
+
 
   @override
   Widget build(BuildContext context) {
 
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom !=0;
-    TextEditingController _controllerName = TextEditingController();
-    TextEditingController _controllerStatus = TextEditingController();
+    TextEditingController _controllerName = TextEditingController(text: userController.displayName);
+    TextEditingController _controllerStatus = TextEditingController(text: userController.status);
+    String selectedGender = userController.gender;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -147,7 +148,7 @@ class _EditProfileState extends State<EditProfile> {
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
-                              "1995",
+                              userController.birthDate,
                               style: TextStyle(fontSize: 18),
                             ),
                           ),
@@ -196,8 +197,9 @@ class _EditProfileState extends State<EditProfile> {
                                           Color.fromRGBO(254, 254, 254, 0.65)),
                                   borderRadius: BorderRadius.circular(50.0))),
                           isExpanded: true,
-                          hint: const Text(
-                            "Gender",
+                          value: userController.gender,
+                          hint: Text(
+                            userController.gender,
                             style: TextStyle(fontSize: 13),
                           ),
                           items: genderItems
@@ -251,7 +253,7 @@ class _EditProfileState extends State<EditProfile> {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () async {
-                    var res = await Api().EditUserInfo("user", userController.status, userController.displayName, selectedGender, userController.userID);
+                    var res = await Api().EditUserInfo("edit",_controllerStatus.text, _controllerName.text, selectedGender, userController.userID );
                     if(res['message'] == "success") {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (BuildContext context) {
