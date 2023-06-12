@@ -33,10 +33,12 @@ class _PreviewPageState extends State<PreviewPage> {
   String className = "Loading...";
   bool value = false;
   bool showImage = false;
+  bool _load = false;
   late Future<List> _clothesList;
 
   Future<List> _getClothes() async {
-    return await Api().getClothes('clothes', 'recom_you', userController.userID);
+    return await Api()
+        .getClothes('clothes', 'recom_you', userController.userID);
   }
 
   Map<String, String> styleMap = {
@@ -176,7 +178,6 @@ class _PreviewPageState extends State<PreviewPage> {
       );
     }
 
-    //final color = Theme.of(context).colorScheme.primary;
     return Stack(
       children: [
         Scaffold(
@@ -354,6 +355,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                       Row(
                                                                         children: [
                                                                           Checkbox(
+                                                                            shape: CircleBorder(),
+                                                                            activeColor: Colors.green,
                                                                             checkColor:
                                                                                 Colors.white,
                                                                             value:
@@ -472,6 +475,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                       Row(
                                                                         children: [
                                                                           Checkbox(
+                                                                            shape: CircleBorder(),
+                                                                            activeColor: Colors.green,
                                                                             checkColor:
                                                                                 Colors.white,
                                                                             value:
@@ -590,6 +595,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                       Row(
                                                                         children: [
                                                                           Checkbox(
+                                                                            shape: CircleBorder(),
+                                                                            activeColor: Colors.green,
                                                                             checkColor:
                                                                                 Colors.white,
                                                                             value:
@@ -647,6 +654,10 @@ class _PreviewPageState extends State<PreviewPage> {
                                                         ),
                                                         ElevatedButton(
                                                           onPressed: () async {
+                                                            setState((){
+                                                              _load = true;
+                                                              showImage = false;
+                                                            });
                                                             var p = await Api()
                                                                 .imageSearchPredict(
                                                                     "fluttedReccomendation/imageSearch",
@@ -665,6 +676,7 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                     userController
                                                                         .userID);
                                                             setState(() {
+                                                              _load = false;
                                                               showImage = true;
                                                               _clothesList = _getClothes();
                                                             });
@@ -685,88 +697,90 @@ class _PreviewPageState extends State<PreviewPage> {
                                                         ),
                                                         showImage
                                                             ? Padding(
-                                                              padding: const EdgeInsets.all(8.0),
-                                                              child: Container(
-                                                          decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(10.0),
-                                                                color: Color.fromRGBO(222, 179, 173, 1.0)
-                                                          ),
-                                                          child: Column(
-                                                                children: [
-                                                                  FutureBuilder<List>(
-                                                                    future: _clothesList,
-                                                                    builder: (context, snapshot) {
-                                                                      if (snapshot.connectionState != ConnectionState.done) {
-                                                                        return LoadingAnimationWidget.fourRotatingDots(
-                                                                            color: Color.fromRGBO(222, 216, 244, 1.0),
-                                                                            size: 20);
-                                                                      }
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child:
+                                                                    Container(
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                      color: Color.fromRGBO(
+                                                                          222,
+                                                                          179,
+                                                                          173,
+                                                                          1.0)),
+                                                                  child: Column(
+                                                                    children: [
+                                                                      FutureBuilder<
+                                                                          List>(
+                                                                        future:
+                                                                            _clothesList,
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot) {
+                                                                          if (snapshot.connectionState !=
+                                                                              ConnectionState.done) {
+                                                                            return LoadingAnimationWidget.fourRotatingDots(
+                                                                                color: Color.fromRGBO(222, 216, 244, 1.0),
+                                                                                size: 20);
+                                                                          }
 
-                                                                      if (snapshot.hasError) {
-                                                                        return Text("เกิดข้อผิดพลาด ${snapshot.error}");
-                                                                      }
+                                                                          if (snapshot
+                                                                              .hasError) {
+                                                                            return Text("เกิดข้อผิดพลาด ${snapshot.error}");
+                                                                          }
 
-                                                                      if (snapshot.hasData) {
-                                                                        var data = snapshot.data!;
+                                                                          if (snapshot
+                                                                              .hasData) {
+                                                                            var data =
+                                                                                snapshot.data!;
 
-                                                                        if (data.length>0) {
-                                                                          return Padding(
-                                                                            padding: const EdgeInsets
-                                                                                .all(
-                                                                                8.0),
-                                                                            child: SizedBox(
-                                                                              height: MediaQuery
-                                                                                  .of(
-                                                                                  context)
-                                                                                  .size
-                                                                                  .height -
-                                                                                  200,
-                                                                              child: MasonryGridView
-                                                                                  .count(
-                                                                                crossAxisCount: 2,
-                                                                                mainAxisSpacing: 8,
-                                                                                crossAxisSpacing: 8,
-                                                                                itemCount: data
-                                                                                    .length,
-                                                                                itemBuilder: (
-                                                                                    context,
-                                                                                    index) {
-                                                                                  return ClipRRect(
-                                                                                      borderRadius: BorderRadius
-                                                                                          .circular(
-                                                                                          10.0),
-                                                                                      child: Image
-                                                                                          .network(
-                                                                                          data[index]
-                                                                                              .url));
-                                                                                },
-                                                                              ),
-                                                                            ),
-                                                                          );
-                                                                        }else{
-                                                                          return Padding(
-                                                                            padding: const EdgeInsets.all(8.0),
-                                                                            child: Column(
-                                                                              children: [
-                                                                                Text('Not Reccommendation.'
-                                                                                    'or'
-                                                                                    'Insufficient image in the database.',style: TextStyle(fontSize: 18.0)),
-                                                                              ],
-                                                                            ),
-                                                                          );
-                                                                        }
-                                                                      }
-                                                                      return const SizedBox.shrink();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              ),
-
-                                                        ),
-                                                            )
-                                                            : SizedBox(
-                                                          height: 10,
-                                                        ),
+                                                                            if (data.length >
+                                                                                0) {
+                                                                              return Padding(
+                                                                                padding: const EdgeInsets.all(8.0),
+                                                                                child: SizedBox(
+                                                                                  height: MediaQuery.of(context).size.height - 200,
+                                                                                  child: MasonryGridView.count(
+                                                                                    crossAxisCount: 2,
+                                                                                    mainAxisSpacing: 8,
+                                                                                    crossAxisSpacing: 8,
+                                                                                    itemCount: data.length,
+                                                                                    itemBuilder: (context, index) {
+                                                                                      return ClipRRect(borderRadius: BorderRadius.circular(10.0), child: Image.network(data[index].url));
+                                                                                    },
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            } else {
+                                                                              return Padding(
+                                                                                padding: const EdgeInsets.all(8.0),
+                                                                                child: Column(
+                                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                  children: [
+                                                                                    const Text('Not Reccommendation.', style: TextStyle(fontSize: 18.0)),
+                                                                                    const Text('or', style: TextStyle(fontSize: 18.0)),
+                                                                                    const Text('Insufficient image in the database.', style: TextStyle(fontSize: 18.0)),
+                                                                                  ],
+                                                                                ),
+                                                                              );
+                                                                            }
+                                                                          }
+                                                                          return const SizedBox
+                                                                              .shrink();
+                                                                        },
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            : _load ? Padding(
+                                                              padding: const EdgeInsets.only(top: 20.0),
+                                                              child: LoadingAnimationWidget.fourRotatingDots(color: Color.fromRGBO(222, 216, 244, 1.0), size: 40.0),
+                                                            ): SizedBox(height: 10),
                                                       ]),
                                                 ),
                                               ],

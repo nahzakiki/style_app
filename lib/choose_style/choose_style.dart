@@ -46,7 +46,7 @@ class _ChooseStyleState extends State<ChooseStyle> {
   ];
 
   List<String> caual_image = [
-    "https://cdn.discordapp.com/attachments/743841976365088841/1105052166592401488/e5d9e991626901addfb35023d2a5b2ad.jpg",
+    "https://media.discordapp.net/attachments/743841976365088841/1105036769143050260/MEN-Jackets_Vests-id_00006912-08_7_additional.jpg",
     "https://cdn.discordapp.com/attachments/743841976365088841/1105036769377927208/2f954639dff964ad6a967d46d85aa347.jpg",
     "https://cdn.discordapp.com/attachments/743841976365088841/1105036816710643742/c888275b58a2134de91e5cccfca4a514.jpg"
   ];

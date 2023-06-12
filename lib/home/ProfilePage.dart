@@ -7,6 +7,7 @@ import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:style_app/IndexPreview.dart';
 import 'package:style_app/Login/Login.dart';
 import 'package:style_app/controller/user_state.dart';
 import 'package:style_app/home/AbotNG.dart';
@@ -31,11 +32,46 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void logout() async {
     try {
-      await LineSDK.instance.logout();
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Login()),
-            (Route<dynamic> route) => false,
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            alignment: Alignment.center,
+            title: Text("Log out of ${userController.displayName}?",style: TextStyle(color: Colors.blue)),
+            content: Text("คุณต้องการออกจากระบบใช่หรือไม่?", style: Theme.of(context).textTheme.labelLarge),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.labelLarge),
+                    child: const Text('Log out',style: TextStyle(color: Colors.red),),
+                    onPressed: () async {
+                      await LineSDK.instance.logout();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login()),
+                            (Route<dynamic> route) => false,
+                      );
+                    },
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.labelLarge),
+                    child: const Text('Cancel'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+
+            ],
+          );
+        },
       );
     } on PlatformException catch (e) {
       print(e.message);
