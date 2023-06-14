@@ -34,7 +34,7 @@ class _PreviewPageState extends State<PreviewPage> {
   bool value = false;
   bool showImage = false;
   bool _load = false;
-  late Future<List> _clothesList;
+  Future<List>? _clothesList;
 
   Future<List> _getClothes() async {
     return await Api()
@@ -657,6 +657,7 @@ class _PreviewPageState extends State<PreviewPage> {
                                                             setState((){
                                                               _load = true;
                                                               showImage = false;
+                                                              _clothesList = null;
                                                             });
                                                             var p = await Api()
                                                                 .imageSearchPredict(
@@ -750,7 +751,9 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                                     crossAxisSpacing: 8,
                                                                                     itemCount: data.length,
                                                                                     itemBuilder: (context, index) {
-                                                                                      return ClipRRect(borderRadius: BorderRadius.circular(10.0), child: Image.network(data[index].url));
+                                                                                      print(index);
+                                                                                      print(data[index].url);
+                                                                                      return ClipRRect(borderRadius: BorderRadius.circular(10.0), child: Image.network("${data[index].url}?timestamp=${DateTime.now().millisecondsSinceEpoch}"));
                                                                                     },
                                                                                   ),
                                                                                 ),
@@ -761,7 +764,7 @@ class _PreviewPageState extends State<PreviewPage> {
                                                                                 child: Column(
                                                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                                                   children: [
-                                                                                    const Text('Not Reccommendation.', style: TextStyle(fontSize: 18.0)),
+                                                                                    const Text('No Reccommendation.', style: TextStyle(fontSize: 18.0)),
                                                                                     const Text('or', style: TextStyle(fontSize: 18.0)),
                                                                                     const Text('Insufficient image in the database.', style: TextStyle(fontSize: 18.0)),
                                                                                   ],
