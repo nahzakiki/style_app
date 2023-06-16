@@ -46,7 +46,7 @@ class _PreviewPageState extends State<PreviewPage> {
     "sexy": "Sexy Style",
     "casual": "Casual Style",
     "street": "Street Style",
-    "sweet": "Sweeet Style",
+    "sweet": "Sweet Style",
     "minimal": "Minimal Style",
   };
 
@@ -210,7 +210,6 @@ class _PreviewPageState extends State<PreviewPage> {
                   ],
                 ),
               ),
-              //Text('Street Style', style: TextStyle(fontSize: 36)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ClipRRect(

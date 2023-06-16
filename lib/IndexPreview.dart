@@ -103,7 +103,7 @@ class _IndexPreview extends State<IndexPreview> with TickerProviderStateMixin {
                             color: currentTab == 1
                                 ? Color.fromRGBO(222, 179, 173, 1.0)
                                 : Color.fromRGBO(223, 211, 248, 1.0)),
-                        Text("Home",
+                        Text("Profile",
                             style: TextStyle(
                                 fontSize: 9,
                                 color: currentTab == 1
