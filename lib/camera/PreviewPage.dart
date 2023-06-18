@@ -682,7 +682,7 @@ class _PreviewPageState extends State<PreviewPage> {
                                                             });
                                                           },
                                                           child: Text(
-                                                            'RECOMANDATIONS',
+                                                            'RECOMMENDATION',
                                                             style: TextStyle(
                                                                 fontSize: 16,
                                                                 fontFamily:
